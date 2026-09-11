@@ -277,6 +277,45 @@
       color: #fff;
     }
 
+    .nav-circle-btn {
+      width: 52px; height: 52px; border-radius: 50% !important;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+    }
+    .nav-circle-btn.prev {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+    }
+    .nav-circle-btn.prev:hover {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      transform: translateX(-2px);
+    }
+    .nav-circle-btn.next {
+      background: linear-gradient(135deg, #10B981, #06B6D4);
+      border: none; color: white;
+      box-shadow: 0 4px 20px rgba(16,185,129,0.4);
+    }
+    .nav-circle-btn.next:hover {
+      transform: translateX(2px) translateY(-2px);
+      box-shadow: 0 8px 26px rgba(16,185,129,0.55);
+    }
+    .admin-link-btn {
+      width: 40px; height: 40px; border-radius: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+      transition: all 0.2s; text-decoration: none;
+    }
+    .admin-link-btn:hover {
+      color: #A78BFA;
+      border-color: rgba(167,139,250,0.4);
+      background: rgba(167,139,250,0.08);
+    }
+
     .gauge-container {
       position: relative; width: 220px; height: 115px; margin: 0 auto;
     }
@@ -453,6 +492,9 @@
           <button id="reset-btn" class="btn-danger hidden px-4 py-2 text-sm items-center gap-2 no-print" onclick="resetApp()">
             <i class="fa-solid fa-rotate-left text-xs"></i> Qayta hisoblash
           </button>
+          <a href="admin.html" class="admin-link-btn no-print" title="Admin panel" aria-label="Admin panel">
+            <i class="fa-solid fa-sliders text-sm"></i>
+          </a>
         </div>
       </div>
     </header>
@@ -483,13 +525,16 @@
         <!-- Step Body -->
         <div id="step-area"></div>
 
-        <!-- Navigation Buttons -->
+        <!-- Navigation -->
         <div class="flex items-center justify-between mt-6 gap-4">
-          <button id="btn-prev" class="btn-secondary px-6 py-3.5 text-sm font-semibold flex items-center gap-2" onclick="prevStep()">
-            <i class="fa-solid fa-arrow-left text-xs"></i> Ortga
+          <button id="btn-prev" class="nav-circle-btn prev" onclick="prevStep()" aria-label="Ortga" title="Ortga">
+            <i class="fa-solid fa-arrow-left text-sm"></i>
           </button>
-          <button id="btn-next" class="btn-primary px-8 py-3.5 text-sm text-white flex items-center gap-2" onclick="nextStep()">
-            Davom etish <i class="fa-solid fa-arrow-right text-xs"></i>
+          <div id="auto-advance-hint" class="hidden flex-1 text-center text-xs text-slate-500 font-medium">
+            <i class="fa-solid fa-hand-pointer text-emerald-400/70 mr-1"></i> Variantni tanlang — avtomatik davom etadi
+          </div>
+          <button id="btn-next" class="nav-circle-btn next" onclick="nextStep()" aria-label="Keyingisi" title="Keyingisi">
+            <i class="fa-solid fa-arrow-right text-sm"></i>
           </button>
         </div>
       </div>
@@ -558,6 +603,24 @@
     'Tungi Uyqu va Tiklanish',
   ];
 
+  // Per-step heading + subtitle text (editable from the Admin Panel)
+  const STEP_TITLES = [
+    { title: 'Biologik Jinsingizni Tanlang', subtitle: 'Mifflin-St Jeor ilmiy formulasi orqali asosiy metabolik tezlik (BMR) hisoblanadi' },
+    { title: 'Yoshingiz va Bo\'y O\'lchamingiz', subtitle: 'Tana hajmi va yoshga bog\'liq energiya sarfini hisoblash ko\'rsatkichlari' },
+    { title: 'Hozirgi Tana Vazningiz', subtitle: 'Barcha kaloriya va ozuqaviy makronutrientlar joriy vaznga tayangan holda shakllantiriladi' },
+    { title: 'Birlamchi Fitnes Maqsadingiz', subtitle: 'Reja kaloriyalar defitsiti (ozish), balansi (saqlash) yoki surplyusi (massa) bo\'yicha moslanadi' },
+    { title: 'Kunlik Jismoniy Faollik Darajasi', subtitle: 'TDEE (kunlik sarflanadigan jami kaloriya) hisobi uchun multiplikator koeffitsienti' },
+    { title: 'Ko\'zlangan Maqsadli Tana Vazni', subtitle: 'Erishmoqchi bo\'lgan vazningiz xavfsiz biologik chegaralarda bo\'lishi tekshiriladi' },
+    { title: 'Maqsadga Erishish Muddati', subtitle: 'Vazn o\'zgarishining haftalik tezligi xavfsiz sur\'atda (0.5–1.0 kg/hafta) bo\'lishi shart' },
+    { title: 'Kunlik Toza Suv Iste\'moli', subtitle: 'Gidratatsiya — mushak tonusi, moddalar almashinuvi va energiya ishlab chiqarilishining asosidir' },
+    { title: 'Tungi Uyqu va Biologik Tiklanish', subtitle: 'Uyqu paytida o\'sish gormoni ishlab chiqiladi, asab tizimi va mushaklar to\'liq qayta tiklanadi' },
+  ];
+
+  const GENDER_OPTIONS = [
+    { val: 'male', label: 'Erkak (Male)', desc: 'Formulaga ko\'ra: +5 kcal qo\'shimcha baza', icon: 'fa-mars', color: '#22D3EE' },
+    { val: 'female', label: 'Ayol (Female)', desc: 'Gormonal tuzatish: -161 kcal tuzatish', icon: 'fa-venus', color: '#FB7185' },
+  ];
+
   const ACTIVITY_OPTIONS = [
     { val: 1.2, label: 'Kamharakat turmush tarzi (Sedentary)', icon: 'fa-couch', desc: 'Asosan o\'tirib ishlash, muntazam mashg\'ulotlar deyarli yo\'q', color: '#94A3B8' },
     { val: 1.375, label: 'Yengil jismoniy faollik (Light)', icon: 'fa-person-walking', desc: 'Haftasiga 1–3 marotaba yengil yurish, gimnastika yoki mashqlar', color: '#34D399' },
@@ -571,6 +634,36 @@
     { val: 'maintain', label: 'Vaznni Saqlash (Maintenance)', icon: 'fa-scale-balanced', desc: 'Mavjud tana tuzilishini asrash, salomatlik va biologik tonusni ushlab turish', color: '#06B6D4', gradient: 'rgba(6,182,212,0.1)' },
     { val: 'gain', label: 'Quruq Mushak Massasi (Muscle Gain)', icon: 'fa-person-arrow-up-from-line', desc: 'Mushak tolalarini o\'stirish, jismoniy kuch va tananing quvvat salohiyatini oshirish', color: '#10B981', gradient: 'rgba(16,185,129,0.1)' },
   ];
+
+  // Load any content overrides saved by the Admin Panel (admin.html) — client-side only, no backend
+  function loadAdminConfig() {
+    try {
+      const raw = localStorage.getItem('smartFitnessAdminConfig');
+      if (!raw) return;
+      const cfg = JSON.parse(raw);
+      if (Array.isArray(cfg.stepNames)) {
+        cfg.stepNames.forEach((v, i) => { if (v && STEP_NAMES[i] !== undefined) STEP_NAMES[i] = v; });
+      }
+      if (Array.isArray(cfg.stepTitles)) {
+        cfg.stepTitles.forEach((t, i) => {
+          if (t && STEP_TITLES[i]) {
+            if (t.title) STEP_TITLES[i].title = t.title;
+            if (t.subtitle) STEP_TITLES[i].subtitle = t.subtitle;
+          }
+        });
+      }
+      if (Array.isArray(cfg.gender)) {
+        cfg.gender.forEach((g, i) => { if (g && GENDER_OPTIONS[i]) { if (g.label) GENDER_OPTIONS[i].label = g.label; if (g.desc) GENDER_OPTIONS[i].desc = g.desc; } });
+      }
+      if (Array.isArray(cfg.goals)) {
+        cfg.goals.forEach((g, i) => { if (g && GOAL_OPTIONS[i]) { if (g.label) GOAL_OPTIONS[i].label = g.label; if (g.desc) GOAL_OPTIONS[i].desc = g.desc; } });
+      }
+      if (Array.isArray(cfg.activities)) {
+        cfg.activities.forEach((a, i) => { if (a && ACTIVITY_OPTIONS[i]) { if (a.label) ACTIVITY_OPTIONS[i].label = a.label; if (a.desc) ACTIVITY_OPTIONS[i].desc = a.desc; } });
+      }
+    } catch (e) { /* ignore malformed config */ }
+  }
+  loadAdminConfig();
 
   function calculateDiagnostics() {
     const a = state.answers;
@@ -717,13 +810,31 @@
 
     const prev = document.getElementById('btn-prev');
     const next = document.getElementById('btn-next');
+    const hint = document.getElementById('auto-advance-hint');
     prev.style.visibility = state.step === 1 ? 'hidden' : 'visible';
     if (state.step === state.totalSteps) {
-      next.innerHTML = '<i class="fa-solid fa-chart-line text-xs"></i> Diagnostikani Ko\'rish';
+      next.innerHTML = '<i class="fa-solid fa-chart-line text-sm"></i>';
+      next.title = 'Diagnostikani Ko\'rish';
     } else {
-      next.innerHTML = 'Davom etish <i class="fa-solid fa-arrow-right text-xs"></i>';
+      next.innerHTML = '<i class="fa-solid fa-arrow-right text-sm"></i>';
+      next.title = 'Keyingisi';
     }
+    const isChoiceStep = [1, 4, 5].includes(state.step);
+    next.style.display = isChoiceStep && state.step !== state.totalSteps ? 'none' : 'flex';
+    hint.classList.toggle('hidden', !(isChoiceStep && state.step !== state.totalSteps));
     renderStepIndicators();
+  }
+
+  // Auto-advance: called when a choice card (gender / goal / activity) is selected
+  function autoAdvance() {
+    setTimeout(() => {
+      if (state.step < state.totalSteps) {
+        state.step++;
+        renderCurrentStep();
+      } else {
+        showDashboard();
+      }
+    }, 380);
   }
 
   function renderCurrentStep() {
@@ -746,23 +857,21 @@
               <i class="fa-solid fa-venus-mars"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Biologik Jinsingizni Tanlang</h2>
-              <p class="text-xs text-slate-400">Mifflin-St Jeor ilmiy formulasi orqali asosiy metabolik tezlik (BMR) hisoblanadi</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[0].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[0].subtitle}</p>
             </div>
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <div class="card-option p-6 text-center ${state.answers.gender === 'male' ? 'selected' : ''}" data-gender="male">
-              <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="text-5xl mb-3">👨</div>
-              <div class="font-bold text-white text-lg">Erkak (Male)</div>
-              <div class="text-xs text-slate-400 mt-1">Formulaga ko'ra: +5 kcal qo'shimcha baza</div>
-            </div>
-            <div class="card-option p-6 text-center ${state.answers.gender === 'female' ? 'selected' : ''}" data-gender="female">
-              <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="text-5xl mb-3">👩</div>
-              <div class="font-bold text-white text-lg">Ayol (Female)</div>
-              <div class="text-xs text-slate-400 mt-1">Gormonal tuzatish: -161 kcal tuzatish</div>
-            </div>
+            ${GENDER_OPTIONS.map(g => `
+              <div class="card-option p-6 text-center ${state.answers.gender === g.val ? 'selected' : ''}" data-gender="${g.val}">
+                <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                <div class="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center text-3xl" style="background:${g.color}18;color:${g.color};border:1px solid ${g.color}40;">
+                  <i class="fa-solid ${g.icon}"></i>
+                </div>
+                <div class="font-bold text-white text-lg">${g.label}</div>
+                <div class="text-xs text-slate-400 mt-1">${g.desc}</div>
+              </div>
+            `).join('')}
           </div>
           <div id="v-msg" class="validation-msg"></div>
         `;
@@ -773,8 +882,8 @@
               <i class="fa-solid fa-ruler-vertical"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Yoshingiz va Bo'y O'lchamingiz</h2>
-              <p class="text-xs text-slate-400">Tana hajmi va yoshga bog'liq energiya sarfini hisoblash ko'rsatkichlari</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[1].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[1].subtitle}</p>
             </div>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -803,8 +912,8 @@
               <i class="fa-solid fa-weight-scale"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Hozirgi Tana Vazningiz</h2>
-              <p class="text-xs text-slate-400">Barcha kaloriya va ozuqaviy makronutrientlar joriy vaznga tayangan holda shakllantiriladi</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[2].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[2].subtitle}</p>
             </div>
           </div>
           <div class="text-center mb-6">
@@ -824,8 +933,8 @@
               <i class="fa-solid fa-bullseye"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Birlamchi Fitnes Maqsadingiz</h2>
-              <p class="text-xs text-slate-400">Reja kaloriyalar defitsiti (ozish), balansi (saqlash) yoki surplyusi (massa) bo'yicha moslanadi</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[3].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[3].subtitle}</p>
             </div>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -847,8 +956,8 @@
               <i class="fa-solid fa-bolt"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Kunlik Jismoniy Faollik Darajasi</h2>
-              <p class="text-xs text-slate-400">TDEE (kunlik sarflanadigan jami kaloriya) hisobi uchun multiplikator koeffitsienti</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[4].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[4].subtitle}</p>
             </div>
           </div>
           <div class="flex flex-col gap-3">
@@ -875,8 +984,8 @@
               <i class="fa-solid fa-flag-checkered"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Ko'zlangan Maqsadli Tana Vazni</h2>
-              <p class="text-xs text-slate-400">Erishmoqchi bo'lgan vazningiz xavfsiz biologik chegaralarda bo'lishi tekshiriladi</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[5].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[5].subtitle}</p>
             </div>
           </div>
           <div class="text-center mb-6">
@@ -894,8 +1003,8 @@
               <i class="fa-solid fa-calendar-days"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Maqsadga Erishish Muddati</h2>
-              <p class="text-xs text-slate-400">Vazn o'zgarishining haftalik tezligi xavfsiz sur'atda (0.5–1.0 kg/hafta) bo'lishi shart</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[6].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[6].subtitle}</p>
             </div>
           </div>
           <div class="text-center mb-6">
@@ -913,8 +1022,8 @@
               <i class="fa-solid fa-glass-water"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Kunlik Toza Suv Iste'moli</h2>
-              <p class="text-xs text-slate-400">Gidratatsiya — mushak tonusi, moddalar almashinuvi va energiya ishlab chiqarilishining asosidir</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[7].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[7].subtitle}</p>
             </div>
           </div>
           <div class="text-center mb-4">
@@ -932,8 +1041,8 @@
               <i class="fa-solid fa-moon"></i>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-white">Tungi Uyqu va Biologik Tiklanish</h2>
-              <p class="text-xs text-slate-400">Uyqu paytida o'sish gormoni ishlab chiqiladi, asab tizimi va mushaklar to'liq qayta tiklanadi</p>
+              <h2 class="text-xl font-bold text-white">${STEP_TITLES[8].title}</h2>
+              <p class="text-xs text-slate-400">${STEP_TITLES[8].subtitle}</p>
             </div>
           </div>
           <div class="text-center mb-4">
@@ -955,10 +1064,12 @@
     if (s === 1) {
       document.querySelectorAll('[data-gender]').forEach(c => {
         c.addEventListener('click', () => {
+          if (c.classList.contains('selected')) return;
           document.querySelectorAll('[data-gender]').forEach(x => x.classList.remove('selected'));
           c.classList.add('selected');
           state.answers.gender = c.dataset.gender;
           document.getElementById('v-msg').textContent = '';
+          autoAdvance();
         });
       });
     } else if (s === 2) {
@@ -989,19 +1100,23 @@
     } else if (s === 4) {
       document.querySelectorAll('[data-goal]').forEach(c => {
         c.addEventListener('click', () => {
+          if (c.classList.contains('selected')) return;
           document.querySelectorAll('[data-goal]').forEach(x => x.classList.remove('selected'));
           c.classList.add('selected');
           state.answers.goal = c.dataset.goal;
           document.getElementById('v-msg').textContent = '';
+          autoAdvance();
         });
       });
     } else if (s === 5) {
       document.querySelectorAll('[data-activity]').forEach(c => {
         c.addEventListener('click', () => {
+          if (c.classList.contains('selected')) return;
           document.querySelectorAll('[data-activity]').forEach(x => x.classList.remove('selected'));
           c.classList.add('selected');
           state.answers.activity = +c.dataset.activity;
           document.getElementById('v-msg').textContent = '';
+          autoAdvance();
         });
       });
     } else if (s === 6) {
