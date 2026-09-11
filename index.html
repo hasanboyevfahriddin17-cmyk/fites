@@ -3,1830 +3,279 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Fitness & Body Diagnostics</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-
-  <!-- Font Awesome CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            obsidian: { 950: '#030508', 900: '#070A12', 800: '#0C111D', 700: '#151C2C', 600: '#1E293B' },
-            emerald: { 400: '#34D399', 500: '#10B981', 600: '#059669' },
-            cyan: { 400: '#22D3EE', 500: '#06B6D4' },
-            amber: { 400: '#FBBF24', 500: '#F59E0B' },
-            rose: { 400: '#FB7185', 500: '#F43F5E' },
-            violet: { 400: '#A78BFA', 500: '#8B5CF6', 600: '#7C3AED' },
-            fuchsia: { 400: '#E879F9', 500: '#D946EF' },
-            lime: { 400: '#A3E635', 500: '#84CC16' },
-          },
-          fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-        }
-      }
-    };
-  </script>
-
+  <title>Zamonaviy Kirish Sahifasi</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at 50% 0%, #0D1527 0%, #060911 60%, #020306 100%);
-      color: #E2E8F0;
-      min-height: 100vh;
+      background-color: #080711;
+      color: #fff;
       overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    .bg-grid {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(16,185,129,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
+    /* --- ANTIQA VA ZAMONAVIY ORQA FON EFFEKTI --- */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
     }
-    .bg-radial {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(ellipse 90% 65% at 50% -10%, rgba(139,92,246,0.12) 0%, rgba(6,182,212,0.08) 45%, transparent 75%),
-                  radial-gradient(ellipse 70% 50% at 90% 90%, rgba(16,185,129,0.08) 0%, transparent 60%),
-                  radial-gradient(ellipse 60% 40% at 10% 80%, rgba(217,70,239,0.06) 0%, transparent 60%);
+
+    /* Harakatlanuvchi neon nurlar */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.6;
+      animation: float 12s infinite alternate ease-in-out;
     }
-    .floating-orb {
-      position: fixed; border-radius: 50%; filter: blur(95px); pointer-events: none; z-index: 0;
-      animation: float 10s ease-in-out infinite;
+
+    .blob-1 {
+      width: 450px;
+      height: 450px;
+      background: linear-gradient(135deg, #ff007f, #7928ca);
+      top: -100px;
+      left: -100px;
     }
+
+    .blob-2 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      bottom: -150px;
+      right: -100px;
+      animation-duration: 16s;
+    }
+
+    .blob-3 {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, #00f5d4, #7b2cbf);
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 20s;
+    }
+
     @keyframes float {
-      0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
-      50% { transform: translateY(-35px) scale(1.1) rotate(10deg); }
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        transform: translate(80px, 60px) scale(1.15);
+      }
     }
 
-    /* Exotic Aurora Glow Header Badge */
-    .aurora-text {
-      background: linear-gradient(135deg, #34D399 0%, #22D3EE 35%, #A78BFA 70%, #F472B6 100%);
+    /* Grid to'ri foni */
+    .grid-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+    }
+
+    /* --- ASOSIY HERO / KIRISH BLOKI --- */
+    .hero-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .glass-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 30px;
+      padding: 60px 40px;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                  inset 0 0 20px rgba(255, 255, 255, 0.05);
+      animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Zamonaviy Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: #00f2fe;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 25px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #00f5d4;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00f5d4;
+    }
+
+    /* Sarlavha */
+    .title {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 70%, #00f2fe 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 12px rgba(34,211,238,0.35));
     }
 
-    /* Fitness background floating badges */
-    .fitness-float-icon {
-      position: fixed; pointer-events: none; z-index: 1; opacity: 0.16;
-      animation: floatBadge 14s ease-in-out infinite alternate;
-      color: #34D399;
-      filter: drop-shadow(0 0 18px rgba(52,211,153,0.5));
-      transition: opacity 0.3s;
-    }
-    .fitness-float-icon.cyan {
-      color: #22D3EE;
-      filter: drop-shadow(0 0 18px rgba(34,211,238,0.5));
-    }
-    .fitness-float-icon.purple {
-      color: #A78BFA;
-      filter: drop-shadow(0 0 18px rgba(167,139,250,0.5));
-    }
-    .fitness-float-icon.fuchsia {
-      color: #F472B6;
-      filter: drop-shadow(0 0 18px rgba(244,114,182,0.5));
-    }
-    .fitness-float-icon.amber {
-      color: #FBBF24;
-      filter: drop-shadow(0 0 18px rgba(251,191,36,0.5));
+    .subtitle {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
     }
 
-    @keyframes floatBadge {
-      0% { transform: translateY(0px) rotate(0deg) scale(1); }
-      50% { transform: translateY(-30px) rotate(12deg) scale(1.1); }
-      100% { transform: translateY(-50px) rotate(-8deg) scale(0.94); }
+    /* Tugmalar bo'limi */
+    .action-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    /* Animated heartbeat pulse line in background */
-    .heartbeat-line {
-      position: fixed; bottom: 35px; left: 0; width: 100%; height: 65px;
-      pointer-events: none; z-index: 1; opacity: 0.22;
-      filter: drop-shadow(0 0 8px #22D3EE);
-    }
-
-    #particles-canvas {
-      position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(25px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-
-    /* Holographic Cyber Glass */
-    .glass {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 1.25rem;
-      box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transition: all 0.3s;
-    }
-    .glass:hover {
-      border-color: rgba(34, 211, 238, 0.25);
-      box-shadow: 0 15px 40px -5px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    }
-
-    .glass-strong {
-      background: linear-gradient(145deg, rgba(17, 24, 43, 0.75) 0%, rgba(8, 12, 22, 0.85) 100%);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border: 1px solid rgba(34, 211, 238, 0.16);
-      border-radius: 1.5rem;
-      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px -10px rgba(16, 185, 129, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-    }
-
-    .step-dot {
-      width: 38px; height: 38px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 800;
-      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative; cursor: default;
-    }
-    .step-dot.active {
-      background: linear-gradient(135deg, #10B981, #06B6D4 50%, #8B5CF6 100%);
-      box-shadow: 0 0 0 4px rgba(6,182,212,0.3), 0 0 25px rgba(6,182,212,0.7);
-      transform: scale(1.15);
-    }
-    .step-dot.completed {
-      background: linear-gradient(135deg, #059669, #0891B2);
-      box-shadow: 0 0 12px rgba(5,150,105,0.4);
-    }
-    .step-dot.pending {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.35);
-    }
-
-    .custom-slider {
-      -webkit-appearance: none; appearance: none;
-      width: 100%; height: 7px; outline: none;
-      border-radius: 999px; cursor: pointer;
-      background: linear-gradient(90deg, rgba(16,185,129,0.3), rgba(6,182,212,0.3), rgba(139,92,246,0.3));
-    }
-    .custom-slider::-webkit-slider-thumb {
-      -webkit-appearance: none; appearance: none;
-      width: 24px; height: 24px; border-radius: 50%;
-      background: linear-gradient(135deg, #22D3EE, #10B981 50%, #A78BFA 100%);
+    .btn {
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 0 0 4px rgba(34,211,238,0.3), 0 0 20px rgba(34,211,238,0.7);
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .custom-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.25);
-      box-shadow: 0 0 0 6px rgba(34,211,238,0.4), 0 0 30px rgba(34,211,238,0.9);
-    }
-
-    .card-option {
-      border: 1.5px solid rgba(255,255,255,0.08);
-      border-radius: 1.25rem; cursor: pointer;
-      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-      background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-      position: relative; overflow: hidden;
-    }
-    .card-option:hover {
-      border-color: rgba(34,211,238,0.5);
-      background: linear-gradient(145deg, rgba(34,211,238,0.08) 0%, rgba(139,92,246,0.05) 100%);
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 10px 25px -5px rgba(6,182,212,0.25);
-    }
-    .card-option.selected {
-      border-color: #22D3EE;
-      background: linear-gradient(145deg, rgba(6,182,212,0.18) 0%, rgba(139,92,246,0.12) 100%);
-      box-shadow: 0 0 0 1px rgba(34,211,238,0.5), 0 12px 35px rgba(6,182,212,0.35);
-    }
-    .card-option .check-icon {
-      display: none; position: absolute; top: 12px; right: 12px;
-      width: 24px; height: 24px; border-radius: 50%;
-      background: linear-gradient(135deg, #10B981, #06B6D4 50%, #8B5CF6 100%);
-      align-items: center; justify-content: center; font-size: 0.7rem; color: white;
-      box-shadow: 0 0 12px rgba(6,182,212,0.6);
-    }
-    .card-option.selected .check-icon { display: flex; }
-
-    .neo-input {
-      background: rgba(13, 21, 39, 0.7);
-      border: 1.5px solid rgba(255,255,255,0.12);
-      border-radius: 0.875rem; color: #E2E8F0;
-      font-weight: 700; outline: none;
-      transition: all 0.25s;
-    }
-    .neo-input:focus {
-      border-color: #22D3EE;
-      box-shadow: 0 0 0 3px rgba(34,211,238,0.25), 0 0 15px rgba(34,211,238,0.3);
-      background: rgba(13, 21, 39, 0.9);
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #10B981 0%, #06B6D4 50%, #8B5CF6 100%);
-      border: none; border-radius: 1rem;
-      font-weight: 800; cursor: pointer;
-      box-shadow: 0 6px 25px rgba(6,182,212,0.45);
-      transition: all 0.25s;
-      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #080711;
+      border: none;
+      box-shadow: 0 10px 25px rgba(0, 242, 254, 0.35);
     }
+
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 32px rgba(6,182,212,0.65), 0 0 20px rgba(139,92,246,0.4);
-      filter: brightness(1.08);
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 15px 35px rgba(0, 242, 254, 0.5);
     }
+
     .btn-secondary {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 1rem; font-weight: 700;
-      cursor: pointer; transition: all 0.25s; color: rgba(255,255,255,0.75);
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
     }
+
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(34,211,238,0.3);
-      color: #22D3EE;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    .btn-danger {
-      background: linear-gradient(135deg, rgba(244,63,94,0.15) 0%, rgba(217,70,239,0.15) 100%);
-      border: 1px solid rgba(244,63,94,0.35);
-      border-radius: 1rem; font-weight: 700;
-      cursor: pointer; transition: all 0.25s; color: #FB7185;
-    }
-    .btn-danger:hover {
-      background: linear-gradient(135deg, rgba(244,63,94,0.25) 0%, rgba(217,70,239,0.25) 100%);
-      box-shadow: 0 0 20px rgba(244,63,94,0.35);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
-    .nav-circle-btn {
-      width: 52px; height: 52px; border-radius: 50% !important;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-      flex-shrink: 0;
-    }
-    .nav-circle-btn.prev {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.7);
-    }
-    .nav-circle-btn.prev:hover {
-      background: rgba(255,255,255,0.1);
-      color: white;
-      transform: translateX(-2px);
-    }
-    .nav-circle-btn.next {
-      background: linear-gradient(135deg, #10B981, #06B6D4);
-      border: none; color: white;
-      box-shadow: 0 4px 20px rgba(16,185,129,0.4);
-    }
-    .nav-circle-btn.next:hover {
-      transform: translateX(2px) translateY(-2px);
-      box-shadow: 0 8px 26px rgba(16,185,129,0.55);
-    }
-    .admin-link-btn {
-      width: 40px; height: 40px; border-radius: 0.8rem;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.6);
-      transition: all 0.2s; text-decoration: none;
-    }
-    .admin-link-btn:hover {
-      color: #A78BFA;
-      border-color: rgba(167,139,250,0.4);
-      background: rgba(167,139,250,0.08);
+    /* Pastki ko'rsatkichlar */
+    .features-strip {
+      margin-top: 45px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 30px;
+      color: #64748b;
+      font-size: 0.9rem;
     }
 
-    .gauge-container {
-      position: relative; width: 220px; height: 115px; margin: 0 auto;
+    .features-strip span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .gauge-bg {
-      width: 220px; height: 110px;
-      border-radius: 110px 110px 0 0;
-      background: conic-gradient(from 180deg at 50% 100%, #3B82F6 0deg, #06B6D4 35deg, #10B981 70deg, #FBBF24 105deg, #F43F5E 140deg, transparent 140deg);
-      position: relative;
-    }
-    .gauge-needle {
-      position: absolute; bottom: 0; left: 50%;
-      width: 3.5px; height: 88px;
-      background: linear-gradient(to top, #FFFFFF, rgba(255,255,255,0));
-      transform-origin: bottom center;
-      border-radius: 2px;
-      transition: transform 1.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 0 8px rgba(255,255,255,0.8);
-    }
-    .gauge-center {
-      position: absolute; bottom: -7px; left: 50%;
-      width: 18px; height: 18px; border-radius: 50%;
-      background: linear-gradient(135deg, #22D3EE, #8B5CF6);
-      transform: translateX(-50%);
-      box-shadow: 0 0 20px rgba(34,211,238,0.8);
-    }
-    .gauge-center {
-      position: absolute; bottom: -6px; left: 50%;
-      width: 16px; height: 16px; border-radius: 50%;
-      background: linear-gradient(135deg, #10B981, #06B6D4);
-      transform: translateX(-50%);
-      box-shadow: 0 0 15px rgba(16,185,129,0.6);
-    }
-
-    .water-glass {
-      width: 32px; height: 42px;
-      border: 2px solid rgba(6,182,212,0.3);
-      border-top: none; border-radius: 0 0 6px 6px;
-      position: relative; overflow: hidden;
-      transition: all 0.3s;
-    }
-    .water-glass.filled { border-color: #06B6D4; }
-    .water-glass.filled .water-fill {
-      background: linear-gradient(to top, #0891B2, #22D3EE);
-      box-shadow: 0 0 10px rgba(6,182,212,0.5);
-    }
-    .water-fill {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 0%; transition: height 0.3s ease;
-    }
-
-    .progress-bar-inner {
-      height: 100%; border-radius: 999px;
-      background: linear-gradient(90deg, #10B981, #06B6D4, #10B981);
-      background-size: 200% 100%;
-      animation: shimmer 2s linear infinite;
-    }
-
-    .step-content { animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-    .dashboard-section { animation: fadeUp 0.4s ease-out forwards; }
-
-    .alert-warning {
-      background: rgba(245,158,11,0.08);
-      border: 1px solid rgba(245,158,11,0.3);
-      border-radius: 0.875rem;
-    }
-    .alert-danger {
-      background: rgba(244,63,94,0.08);
-      border: 1px solid rgba(244,63,94,0.3);
-      border-radius: 0.875rem;
-    }
-    .alert-success {
-      background: rgba(16,185,129,0.08);
-      border: 1px solid rgba(16,185,129,0.3);
-      border-radius: 0.875rem;
-    }
-    .alert-info {
-      background: rgba(6,182,212,0.08);
-      border: 1px solid rgba(6,182,212,0.3);
-      border-radius: 0.875rem;
-    }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      padding: 0.25rem 0.75rem; border-radius: 999px;
-      font-size: 0.75rem; font-weight: 700;
-    }
-
-    .validation-msg { font-size: 0.8rem; font-weight: 500; margin-top: 0.5rem; }
-    .validation-msg.error { color: #FB7185; }
-    .validation-msg.success { color: #34D399; }
-    .validation-msg.warning { color: #FBBF24; }
-
-    .macro-pill {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.75rem 1rem; border-radius: 0.75rem;
-      font-size: 0.9rem; font-weight: 600;
-    }
-
-    @media print {
-      body { background: #ffffff !important; color: #111827 !important; }
-      .bg-grid, .bg-radial, .floating-orb, #stepper-section, .no-print { display: none !important; }
-      #dashboard-section { display: block !important; padding: 0 !important; }
-      .glass, .glass-strong { background: #f9fafb !important; border: 1px solid #e5e7eb !important; backdrop-filter: none !important; color: #111827 !important; }
-      .text-white { color: #111827 !important; }
-      .text-slate-400, .text-slate-500 { color: #4b5563 !important; }
-      .alert-warning { background: #fffbeb !important; border-color: #fcd34d !important; color: #92400e !important; }
-      .alert-danger { background: #fff1f2 !important; border-color: #fda4af !important; color: #9f1239 !important; }
-      .alert-success { background: #f0fdf4 !important; border-color: #86efac !important; color: #166534 !important; }
-      .alert-info { background: #ecfeff !important; border-color: #67e8f9 !important; color: #155e75 !important; }
-      #print-header { display: block !important; }
-    }
-    #print-header { display: none; }
   </style>
 </head>
-
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-radial"></div>
-  <canvas id="particles-canvas"></canvas>
 
-  <div class="floating-orb" style="width:450px;height:450px;background:rgba(16,185,129,0.06);top:-100px;right:-100px;"></div>
-  <div class="floating-orb" style="width:380px;height:380px;background:rgba(6,182,212,0.06);bottom:100px;left:-100px;animation-delay:-4s;"></div>
-  <div class="floating-orb" style="width:300px;height:300px;background:rgba(245,158,11,0.04);top:45%;left:45%;animation-delay:-2s;"></div>
-
-  <!-- Fitness Themed Floating Animated Background Icons -->
-  <div class="fitness-float-icon text-5xl" style="top:12%; left:6%; animation-duration: 14s;"><i class="fa-solid fa-dumbbell"></i></div>
-  <div class="fitness-float-icon cyan text-4xl" style="top:25%; right:8%; animation-duration: 16s; animation-delay: -3s;"><i class="fa-solid fa-heart-pulse"></i></div>
-  <div class="fitness-float-icon amber text-5xl" style="top:65%; left:5%; animation-duration: 18s; animation-delay: -6s;"><i class="fa-solid fa-fire"></i></div>
-  <div class="fitness-float-icon cyan text-4xl" style="top:75%; right:7%; animation-duration: 13s; animation-delay: -2s;"><i class="fa-solid fa-bottle-water"></i></div>
-  <div class="fitness-float-icon rose text-3xl" style="top:42%; right:14%; animation-duration: 15s; animation-delay: -5s;"><i class="fa-solid fa-apple-whole"></i></div>
-  <div class="fitness-float-icon text-4xl" style="top:50%; left:12%; animation-duration: 17s; animation-delay: -4s;"><i class="fa-solid fa-stopwatch-20"></i></div>
-  <div class="fitness-float-icon text-3xl" style="top:85%; left:22%; animation-duration: 19s; animation-delay: -8s;"><i class="fa-solid fa-person-running"></i></div>
-  <div class="fitness-float-icon cyan text-3xl" style="top:15%; right:25%; animation-duration: 12s; animation-delay: -7s;"><i class="fa-solid fa-shoe-prints"></i></div>
-
-  <!-- Subtle EKG Heartbeat SVG Line at Bottom -->
-  <div class="heartbeat-line">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="width:100%;height:100%;">
-      <path d="M0,30 L300,30 L320,30 L330,10 L340,50 L350,15 L360,38 L370,30 L700,30 L720,30 L730,10 L740,50 L750,15 L760,38 L770,30 L1200,30" 
-            fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="1200" stroke-dashoffset="1200"
-            style="animation: drawEkg 6s linear infinite; opacity: 0.4;">
-      </path>
-    </svg>
-    <style>
-      @keyframes drawEkg {
-        0% { stroke-dashoffset: 1200; }
-        50% { stroke-dashoffset: 0; }
-        100% { stroke-dashoffset: -1200; }
-      }
-    </style>
+  <!-- Orqa fon nurlari -->
+  <div class="bg-animation">
+    <div class="grid-overlay"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
   </div>
 
-  <div class="relative z-10 min-h-screen flex flex-col">
-
-    <!-- HEADER -->
-    <header class="sticky top-0 z-50 py-4 px-6" style="background:rgba(7,10,18,0.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(34,211,238,0.12);box-shadow:0 10px 30px -10px rgba(0,0,0,0.7);">
-      <div class="max-w-6xl mx-auto flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-11 h-11 rounded-2xl flex items-center justify-center relative" style="background:linear-gradient(135deg,rgba(34,211,238,0.2),rgba(139,92,246,0.25));border:1.5px solid rgba(34,211,238,0.4);box-shadow:0 0 20px rgba(34,211,238,0.35);">
-            <i class="fa-solid fa-dna text-xl text-cyan-300"></i>
-          </div>
-          <div>
-            <h1 class="font-black text-xl leading-tight aurora-text tracking-tight">Smart Fitness</h1>
-            <p class="text-xs text-cyan-400/70 font-semibold tracking-wider uppercase">Biometrik Tashxis Tizimi</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div id="header-step-label" class="badge text-cyan-300" style="background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(139,92,246,0.15));border:1px solid rgba(34,211,238,0.35);box-shadow:0 0 15px rgba(6,182,212,0.2);">
-            <i class="fa-solid fa-circle-dot text-xs text-cyan-400"></i>
-            <span>Boshlash</span>
-          </div>
-          <button id="print-btn" class="btn-secondary hidden px-4 py-2 text-sm items-center gap-2 no-print" onclick="window.print()">
-            <i class="fa-solid fa-print text-xs"></i> Print / PDF
-          </button>
-          <button id="reset-btn" class="btn-danger hidden px-4 py-2 text-sm items-center gap-2 no-print" onclick="resetApp()">
-            <i class="fa-solid fa-rotate-left text-xs"></i> Qayta hisoblash
-          </button>
-          <a href="admin.html" class="admin-link-btn no-print" title="Admin panel" aria-label="Admin panel">
-            <i class="fa-solid fa-sliders text-sm"></i>
-          </a>
-        </div>
+  <!-- Boshlang'ich Hero / Kirish qismi -->
+  <main class="hero-container">
+    <div class="glass-card">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Kelajak texnologiyasi
       </div>
-    </header>
+      
+      <h1 class="title">Boshqaruv va Imkoniyatlar Yangi Bosqichda</h1>
+      
+      <p class="subtitle">
+        Tizimga kirish orqali barcha qulayliklardan foydalaning. Tezkor, qulay va to‘liq himoyalangan zamonaviy interfeys.
+      </p>
 
-    <!-- PRINT HEADER -->
-    <div id="print-header" style="padding:20px 0 10px;border-bottom:2px solid #e5e7eb;margin-bottom:20px;">
-      <h1 style="font-size:22pt;font-weight:900;color:#111827;">🧬 Smart Fitness & Body Diagnostics</h1>
-      <p style="color:#6b7280;margin-top:4px;">Shaxsiy fitnes va biometric tahlil hisoboti</p>
-      <p id="print-date" style="color:#9ca3af;font-size:10pt;margin-top:2px;"></p>
+      <div class="action-group">
+        <a href="admin.html" class="btn btn-primary">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Tizimga Kirish
+        </a>
+        <a href="create.py" class="btn btn-secondary">
+          <i class="fa-solid fa-plus"></i> Yangi Yaratish
+        </a>
+      </div>
+
+      <div class="features-strip">
+        <span><i class="fa-solid fa-shield-halved"></i> 100% Xavfsiz</span>
+        <span><i class="fa-solid fa-bolt"></i> Ultra Tezkor</span>
+        <span><i class="fa-solid fa-code"></i> Zamonaviy API</span>
+      </div>
     </div>
+  </main>
 
-    <!-- STEPPER SECTION -->
-    <section id="stepper-section" class="flex-1 py-8 px-4 flex flex-col justify-center">
-      <div class="max-w-3xl mx-auto w-full">
-
-        <!-- Wizard Progress -->
-        <div class="mb-8 glass-strong p-5">
-          <div class="flex items-center justify-between mb-4 overflow-x-auto gap-1" id="step-indicators"></div>
-          <div class="h-2 rounded-full" style="background:rgba(255,255,255,0.05);">
-            <div id="progress-bar" class="progress-bar-inner rounded-full" style="width:11.11%;transition:width 0.4s ease;"></div>
-          </div>
-          <div class="flex justify-between mt-3 text-xs">
-            <span id="step-counter" class="text-slate-500 font-medium">Qadam 1 / 9</span>
-            <span id="step-name-label" class="font-bold" style="color:#10B981;">Jins tanlash</span>
-          </div>
-        </div>
-
-        <!-- Step Body -->
-        <div id="step-area"></div>
-
-        <!-- Navigation -->
-        <div class="flex items-center justify-between mt-6 gap-4">
-          <button id="btn-prev" class="nav-circle-btn prev" onclick="prevStep()" aria-label="Ortga" title="Ortga">
-            <i class="fa-solid fa-arrow-left text-sm"></i>
-          </button>
-          <div id="auto-advance-hint" class="hidden flex-1 text-center text-xs text-slate-500 font-medium">
-            <i class="fa-solid fa-hand-pointer text-emerald-400/70 mr-1"></i> Variantni tanlang — avtomatik davom etadi
-          </div>
-          <button id="btn-next" class="nav-circle-btn next" onclick="nextStep()" aria-label="Keyingisi" title="Keyingisi">
-            <i class="fa-solid fa-arrow-right text-sm"></i>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- DASHBOARD SECTION -->
-    <section id="dashboard-section" class="hidden py-8 px-4">
-      <div class="max-w-6xl mx-auto" id="dashboard-content"></div>
-    </section>
-  </div>
-
-  <script>
-  const state = {
-    step: 1,
-    totalSteps: 9,
-    answers: {
-      gender: null,
-      age: 25,
-      height: 175,
-      weight: 75,
-      goal: null,
-      activity: null,
-      targetWeight: 70,
-      durationWeeks: 10,
-      waterIntake: 2.0,
-      sleepHours: 7.5,
-    },
-    metrics: {},
-    warnings: [],
-    charts: {},
-    tracker: {
-      photoBefore: null,
-      photoCurrent: null,
-      waterDrunkLiters: 0,
-    }
-  };
-
-  function saveState() {
-    const data = { answers: state.answers, tracker: state.tracker };
-    localStorage.setItem('smartFitnessState', JSON.stringify(data));
-  }
-
-  function loadState() {
-    const saved = localStorage.getItem('smartFitnessState');
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        if (data.answers) state.answers = { ...state.answers, ...data.answers };
-        if (data.tracker) state.tracker = { ...state.tracker, ...data.tracker };
-        if (state.answers.gender && state.answers.goal && state.answers.activity) {
-          state.step = 10; // Jump to dashboard if already completed
-        }
-      } catch (e) {}
-    }
-  }
-
-  const STEP_NAMES = [
-    'Jinsingizni Tanlang',
-    'Yoshingiz va Bo\'yingiz',
-    'Hozirgi Tana Vazningiz',
-    'Asosiy Fitnes Maqsadingiz',
-    'Jismoniy Faollik Maromingiz',
-    'Ko\'zlangan Maqsadli Vazn',
-    'Erishish Muddati (Haftalar)',
-    'Kunlik Toza Suv Iste\'moli',
-    'Tungi Uyqu va Tiklanish',
-  ];
-
-  // Per-step heading + subtitle text (editable from the Admin Panel)
-  const STEP_TITLES = [
-    { title: 'Biologik Jinsingizni Tanlang', subtitle: 'Mifflin-St Jeor ilmiy formulasi orqali asosiy metabolik tezlik (BMR) hisoblanadi' },
-    { title: 'Yoshingiz va Bo\'y O\'lchamingiz', subtitle: 'Tana hajmi va yoshga bog\'liq energiya sarfini hisoblash ko\'rsatkichlari' },
-    { title: 'Hozirgi Tana Vazningiz', subtitle: 'Barcha kaloriya va ozuqaviy makronutrientlar joriy vaznga tayangan holda shakllantiriladi' },
-    { title: 'Birlamchi Fitnes Maqsadingiz', subtitle: 'Reja kaloriyalar defitsiti (ozish), balansi (saqlash) yoki surplyusi (massa) bo\'yicha moslanadi' },
-    { title: 'Kunlik Jismoniy Faollik Darajasi', subtitle: 'TDEE (kunlik sarflanadigan jami kaloriya) hisobi uchun multiplikator koeffitsienti' },
-    { title: 'Ko\'zlangan Maqsadli Tana Vazni', subtitle: 'Erishmoqchi bo\'lgan vazningiz xavfsiz biologik chegaralarda bo\'lishi tekshiriladi' },
-    { title: 'Maqsadga Erishish Muddati', subtitle: 'Vazn o\'zgarishining haftalik tezligi xavfsiz sur\'atda (0.5–1.0 kg/hafta) bo\'lishi shart' },
-    { title: 'Kunlik Toza Suv Iste\'moli', subtitle: 'Gidratatsiya — mushak tonusi, moddalar almashinuvi va energiya ishlab chiqarilishining asosidir' },
-    { title: 'Tungi Uyqu va Biologik Tiklanish', subtitle: 'Uyqu paytida o\'sish gormoni ishlab chiqiladi, asab tizimi va mushaklar to\'liq qayta tiklanadi' },
-  ];
-
-  const GENDER_OPTIONS = [
-    { val: 'male', label: 'Erkak (Male)', desc: 'Formulaga ko\'ra: +5 kcal qo\'shimcha baza', icon: 'fa-mars', color: '#22D3EE' },
-    { val: 'female', label: 'Ayol (Female)', desc: 'Gormonal tuzatish: -161 kcal tuzatish', icon: 'fa-venus', color: '#FB7185' },
-  ];
-
-  const ACTIVITY_OPTIONS = [
-    { val: 1.2, label: 'Kamharakat turmush tarzi (Sedentary)', icon: 'fa-couch', desc: 'Asosan o\'tirib ishlash, muntazam mashg\'ulotlar deyarli yo\'q', color: '#94A3B8' },
-    { val: 1.375, label: 'Yengil jismoniy faollik (Light)', icon: 'fa-person-walking', desc: 'Haftasiga 1–3 marotaba yengil yurish, gimnastika yoki mashqlar', color: '#34D399' },
-    { val: 1.55, label: 'O\'rtacha sport faolligi (Moderate)', icon: 'fa-dumbbell', desc: 'Haftasiga 3–5 marotaba o\'rtacha zo\'riqishdagi fitnes mashg\'ulotlari', color: '#10B981' },
-    { val: 1.725, label: 'Yuqori intensiv faollik (Heavy)', icon: 'fa-fire', desc: 'Haftasiga 6–7 kun to\'liq og\'ir atletika yoki intensiv krossfit', color: '#F59E0B' },
-    { val: 1.9, label: 'Professional sportchi (Athlete)', icon: 'fa-trophy', desc: 'Kuniga 2 martadan professional mashg\'ulotlar yoki og\'ir jismoniy mehnat', color: '#EF4444' },
-  ];
-
-  const GOAL_OPTIONS = [
-    { val: 'loss', label: 'Ozish va Yog\' Yoqish (Fat Loss)', icon: 'fa-fire-flame-curved', desc: 'Ortiqcha yog\' qatlamlaridan xalos bo\'lish, relyef va yengillikka erishish', color: '#F59E0B', gradient: 'rgba(245,158,11,0.1)' },
-    { val: 'maintain', label: 'Vaznni Saqlash (Maintenance)', icon: 'fa-scale-balanced', desc: 'Mavjud tana tuzilishini asrash, salomatlik va biologik tonusni ushlab turish', color: '#06B6D4', gradient: 'rgba(6,182,212,0.1)' },
-    { val: 'gain', label: 'Quruq Mushak Massasi (Muscle Gain)', icon: 'fa-person-arrow-up-from-line', desc: 'Mushak tolalarini o\'stirish, jismoniy kuch va tananing quvvat salohiyatini oshirish', color: '#10B981', gradient: 'rgba(16,185,129,0.1)' },
-  ];
-
-  // Load any content overrides saved by the Admin Panel (admin.html) — client-side only, no backend
-  function loadAdminConfig() {
-    try {
-      const raw = localStorage.getItem('smartFitnessAdminConfig');
-      if (!raw) return;
-      const cfg = JSON.parse(raw);
-      if (Array.isArray(cfg.stepNames)) {
-        cfg.stepNames.forEach((v, i) => { if (v && STEP_NAMES[i] !== undefined) STEP_NAMES[i] = v; });
-      }
-      if (Array.isArray(cfg.stepTitles)) {
-        cfg.stepTitles.forEach((t, i) => {
-          if (t && STEP_TITLES[i]) {
-            if (t.title) STEP_TITLES[i].title = t.title;
-            if (t.subtitle) STEP_TITLES[i].subtitle = t.subtitle;
-          }
-        });
-      }
-      if (Array.isArray(cfg.gender)) {
-        cfg.gender.forEach((g, i) => { if (g && GENDER_OPTIONS[i]) { if (g.label) GENDER_OPTIONS[i].label = g.label; if (g.desc) GENDER_OPTIONS[i].desc = g.desc; } });
-      }
-      if (Array.isArray(cfg.goals)) {
-        cfg.goals.forEach((g, i) => { if (g && GOAL_OPTIONS[i]) { if (g.label) GOAL_OPTIONS[i].label = g.label; if (g.desc) GOAL_OPTIONS[i].desc = g.desc; } });
-      }
-      if (Array.isArray(cfg.activities)) {
-        cfg.activities.forEach((a, i) => { if (a && ACTIVITY_OPTIONS[i]) { if (a.label) ACTIVITY_OPTIONS[i].label = a.label; if (a.desc) ACTIVITY_OPTIONS[i].desc = a.desc; } });
-      }
-    } catch (e) { /* ignore malformed config */ }
-  }
-  loadAdminConfig();
-
-  function calculateDiagnostics() {
-    const a = state.answers;
-
-    // 1. BMR (Mifflin-St Jeor)
-    let bmr = 0;
-    if (a.gender === 'male') {
-      bmr = 10 * a.weight + 6.25 * a.height - 5 * a.age + 5;
-    } else {
-      bmr = 10 * a.weight + 6.25 * a.height - 5 * a.age - 161;
-    }
-
-    // 2. TDEE
-    const tdee = bmr * a.activity;
-
-    // 3. BMI
-    const hM = a.height / 100;
-    const bmi = a.weight / (hM * hM);
-    let bmiCategory = '', bmiColor = '';
-    if (bmi < 18.5) { bmiCategory = 'Vazn yetishmovchiligi (Kam vazn)'; bmiColor = '#3B82F6'; }
-    else if (bmi < 25) { bmiCategory = 'Me\'yordagi ideal vazn'; bmiColor = '#10B981'; }
-    else if (bmi < 30) { bmiCategory = 'Ortiqcha vazn bosqichi'; bmiColor = '#F59E0B'; }
-    else { bmiCategory = 'Semizlik holati (Diqqat talab)'; bmiColor = '#EF4444'; }
-
-    const targetBMI = a.targetWeight / (hM * hM);
-
-    // 4. Caloric Target
-    let caloricTarget = 0;
-    let deficitSurplus = 0;
-    if (a.goal === 'loss') {
-      caloricTarget = Math.round(tdee * 0.80); // 20% deficit
-      deficitSurplus = caloricTarget - tdee;
-    } else if (a.goal === 'maintain') {
-      caloricTarget = Math.round(tdee);
-      deficitSurplus = 0;
-    } else {
-      caloricTarget = Math.round(tdee * 1.12); // 12% surplus
-      deficitSurplus = caloricTarget - tdee;
-    }
-
-    // 5. Macros
-    let proteinG = 0, fatG = 0, carbG = 0;
-    if (a.goal === 'loss') {
-      proteinG = Math.round(a.weight * 2.1);
-      fatG = Math.round(a.weight * 0.9);
-    } else if (a.goal === 'gain') {
-      proteinG = Math.round(a.weight * 2.0);
-      fatG = Math.round(a.weight * 1.0);
-    } else {
-      proteinG = Math.round(a.weight * 1.7);
-      fatG = Math.round(a.weight * 0.9);
-    }
-    const proteinKcal = proteinG * 4;
-    const fatKcal = fatG * 9;
-    const remainingKcal = Math.max(caloricTarget - proteinKcal - fatKcal, 0);
-    carbG = Math.round(remainingKcal / 4);
-    const carbKcal = carbG * 4;
-
-    // 6. Water Calculation
-    const waterReqML = a.weight * 38 + (a.activity - 1.2) * 600;
-    const waterReqL = (waterReqML / 1000).toFixed(1);
-
-    // 7. Trajectory
-    const totalDiff = a.targetWeight - a.weight;
-    const weeklyRate = totalDiff / a.durationWeeks;
-    const trajectory = [];
-    for (let w = 0; w <= a.durationWeeks; w++) {
-      trajectory.push(+(a.weight + weeklyRate * w).toFixed(1));
-    }
-
-    // 8. Warnings & Penalties
-    const warnings = [];
-    if (a.sleepHours < 7) {
-      warnings.push({
-        type: 'danger',
-        icon: 'fa-moon',
-        title: 'Metabolik susayish: Surunkali uyqu tanqisligi (-15%)',
-        msg: `Siz kuniga atigi ${a.sleepHours} soat uxlayapsiz. Me'yordan kam uyqu stress gormoni (kortizol) miqdorini oshiradi va tana yog'ini parchalash samaradorligini o'rtacha 15% ga pasaytiradi.`
-      });
-    }
-    if (a.waterIntake < parseFloat(waterReqL) * 0.8) {
-      warnings.push({
-        type: 'warning',
-        icon: 'fa-droplet',
-        title: 'Energetik pasayish: Suv muvozanati yetarli emas (-10%)',
-        msg: `Kunlik ${a.waterIntake} litr suv ichmoqdasiz, organizmingizga esa ${waterReqL} litr talab etiladi. Suvsizlanish hujayralarning quvvat ishlab chiqarishini 10% ga tushirib, charchoqni keltirib chiqaradi.`
-      });
-    }
-    if (Math.abs(weeklyRate) > 1.0 && a.goal === 'loss') {
-      warnings.push({
-        type: 'danger',
-        icon: 'fa-triangle-exclamation',
-        title: 'Sog\'liq uchun xatarli vazn yo\'qotish tezligi!',
-        msg: `Haftasiga ${Math.abs(weeklyRate).toFixed(2)} kg yo'qotish organizm uchun o'ta xavflidir. Bu yog' o'rniga mushaklarning erishiga va moddalar almashinuvining jiddiy sekinlashishiga sabab bo'ladi. Xavfsiz ko'rsatkich: haftasiga 0.5–1.0 kg.`
-      });
-    }
-
-    // Scores
-    const sleepScore = Math.min(Math.round((a.sleepHours / 8) * 100), 100);
-    const hydraScore = Math.min(Math.round((a.waterIntake / parseFloat(waterReqL)) * 100), 100);
-    const actScore = Math.round(((a.activity - 1.2) / 0.7) * 100);
-    const calScore = 95;
-
-    state.metrics = {
-      bmr: Math.round(bmr),
-      tdee: Math.round(tdee),
-      bmi: +bmi.toFixed(1),
-      bmiCategory,
-      bmiColor,
-      targetBMI: +targetBMI.toFixed(1),
-      caloricTarget,
-      deficitSurplus: Math.round(deficitSurplus),
-      proteinG, fatG, carbG,
-      proteinKcal, fatKcal, carbKcal,
-      waterReqL,
-      weeklyRate: +weeklyRate.toFixed(2),
-      trajectory,
-      sleepScore, hydraScore, actScore, calScore,
-      totalScore: Math.round((sleepScore + hydraScore + actScore + calScore) / 4)
-    };
-    state.warnings = warnings;
-  }
-
-  function renderStepIndicators() {
-    const container = document.getElementById('step-indicators');
-    container.innerHTML = STEP_NAMES.map((name, i) => {
-      const n = i + 1;
-      let cls = n < state.step ? 'completed' : n === state.step ? 'active' : 'pending';
-      const icon = n < state.step ? '<i class="fa-solid fa-check text-xs text-white"></i>' : `<span>${n}</span>`;
-      return `
-        <div class="flex flex-col items-center gap-1 min-w-[36px]">
-          <div class="step-dot ${cls}">${icon}</div>
-        </div>
-      `;
-    }).join('<div class="flex-1 h-px bg-white/10 mx-1"></div>');
-  }
-
-  function updateStepperProgress() {
-    const pct = ((state.step - 1) / (state.totalSteps - 1)) * 100;
-    document.getElementById('progress-bar').style.width = pct + '%';
-    document.getElementById('step-counter').textContent = `Qadam ${state.step} / ${state.totalSteps}`;
-    document.getElementById('step-name-label').textContent = STEP_NAMES[state.step - 1];
-    document.getElementById('header-step-label').innerHTML = `<i class="fa-solid fa-circle-dot text-xs"></i><span>${STEP_NAMES[state.step-1]}</span>`;
-
-    const prev = document.getElementById('btn-prev');
-    const next = document.getElementById('btn-next');
-    const hint = document.getElementById('auto-advance-hint');
-    prev.style.visibility = state.step === 1 ? 'hidden' : 'visible';
-    if (state.step === state.totalSteps) {
-      next.innerHTML = '<i class="fa-solid fa-chart-line text-sm"></i>';
-      next.title = 'Diagnostikani Ko\'rish';
-    } else {
-      next.innerHTML = '<i class="fa-solid fa-arrow-right text-sm"></i>';
-      next.title = 'Keyingisi';
-    }
-    const isChoiceStep = [1, 4, 5].includes(state.step);
-    next.style.display = isChoiceStep && state.step !== state.totalSteps ? 'none' : 'flex';
-    hint.classList.toggle('hidden', !(isChoiceStep && state.step !== state.totalSteps));
-    renderStepIndicators();
-  }
-
-  // Auto-advance: called when a choice card (gender / goal / activity) is selected
-  function autoAdvance() {
-    setTimeout(() => {
-      if (state.step < state.totalSteps) {
-        state.step++;
-        renderCurrentStep();
-      } else {
-        showDashboard();
-      }
-    }, 380);
-  }
-
-  function renderCurrentStep() {
-    const area = document.getElementById('step-area');
-    area.innerHTML = '';
-    const wrap = document.createElement('div');
-    wrap.className = 'step-content glass-strong p-6 sm:p-8';
-    wrap.innerHTML = getStepMarkup(state.step);
-    area.appendChild(wrap);
-    bindEventsForStep(state.step);
-    updateStepperProgress();
-  }
-
-  function getStepMarkup(s) {
-    switch(s) {
-      case 1:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <i class="fa-solid fa-venus-mars"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[0].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[0].subtitle}</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            ${GENDER_OPTIONS.map(g => `
-              <div class="card-option p-6 text-center ${state.answers.gender === g.val ? 'selected' : ''}" data-gender="${g.val}">
-                <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-                <div class="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center text-3xl" style="background:${g.color}18;color:${g.color};border:1px solid ${g.color}40;">
-                  <i class="fa-solid ${g.icon}"></i>
-                </div>
-                <div class="font-bold text-white text-lg">${g.label}</div>
-                <div class="text-xs text-slate-400 mt-1">${g.desc}</div>
-              </div>
-            `).join('')}
-          </div>
-          <div id="v-msg" class="validation-msg"></div>
-        `;
-      case 2:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-              <i class="fa-solid fa-ruler-vertical"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[1].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[1].subtitle}</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-semibold text-slate-300">Yoshingiz:</span>
-                <span class="text-2xl font-black text-emerald-400" id="age-val">${state.answers.age} <span class="text-xs font-normal text-slate-400">yosh</span></span>
-              </div>
-              <input type="range" min="14" max="85" value="${state.answers.age}" class="custom-slider" id="age-slider" />
-              <div class="flex justify-between text-xs text-slate-600 mt-1"><span>14 yosh</span><span>85 yosh</span></div>
-            </div>
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-semibold text-slate-300">Bo'yingiz:</span>
-                <span class="text-2xl font-black text-cyan-400" id="h-val">${state.answers.height} <span class="text-xs font-normal text-slate-400">sm</span></span>
-              </div>
-              <input type="range" min="130" max="220" value="${state.answers.height}" class="custom-slider" id="h-slider" />
-              <div class="flex justify-between text-xs text-slate-600 mt-1"><span>130 sm</span><span>220 sm</span></div>
-            </div>
-          </div>
-        `;
-      case 3:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-              <i class="fa-solid fa-weight-scale"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[2].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[2].subtitle}</p>
-            </div>
-          </div>
-          <div class="text-center mb-6">
-            <div class="text-6xl font-black text-amber-400 mb-1"><span id="w-val">${state.answers.weight}</span> <span class="text-2xl text-slate-400 font-normal">kg</span></div>
-          </div>
-          <input type="range" min="35" max="190" value="${state.answers.weight}" class="custom-slider" id="w-slider" />
-          <div class="flex justify-between text-xs text-slate-600 mt-1 mb-5"><span>35 kg</span><span>190 kg</span></div>
-          <div class="max-w-xs mx-auto">
-            <label class="text-xs text-slate-400 block mb-1 text-center font-medium">Aniq raqam bilan kiritish:</label>
-            <input type="number" min="35" max="190" value="${state.answers.weight}" class="neo-input w-full p-2.5 text-center text-lg font-bold" id="w-input" />
-          </div>
-        `;
-      case 4:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[3].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[3].subtitle}</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            ${GOAL_OPTIONS.map(g => `
-              <div class="card-option p-5 ${state.answers.goal === g.val ? 'selected' : ''}" data-goal="${g.val}">
-                <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-                <div class="text-3xl mb-3" style="color:${g.color}"><i class="fa-solid ${g.icon}"></i></div>
-                <div class="font-bold text-white text-base mb-1">${g.label}</div>
-                <div class="text-xs text-slate-400 leading-relaxed">${g.desc}</div>
-              </div>
-            `).join('')}
-          </div>
-          <div id="v-msg" class="validation-msg"></div>
-        `;
-      case 5:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[4].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[4].subtitle}</p>
-            </div>
-          </div>
-          <div class="flex flex-col gap-3">
-            ${ACTIVITY_OPTIONS.map(a => `
-              <div class="card-option p-4 flex items-center gap-4 ${state.answers.activity === a.val ? 'selected' : ''}" data-activity="${a.val}">
-                <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:${a.color}20;color:${a.color};border:1px solid ${a.color}40;">
-                  <i class="fa-solid ${a.icon}"></i>
-                </div>
-                <div class="flex-1">
-                  <div class="font-bold text-white text-sm">${a.label}</div>
-                  <div class="text-xs text-slate-400">${a.desc}</div>
-                </div>
-                <div class="badge text-xs" style="background:${a.color}15;color:${a.color};border:1px solid ${a.color}30;">x${a.val}</div>
-              </div>
-            `).join('')}
-          </div>
-          <div id="v-msg" class="validation-msg"></div>
-        `;
-      case 6:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-              <i class="fa-solid fa-flag-checkered"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[5].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[5].subtitle}</p>
-            </div>
-          </div>
-          <div class="text-center mb-6">
-            <div class="text-6xl font-black text-purple-400 mb-1"><span id="tw-val">${state.answers.targetWeight}</span> <span class="text-2xl text-slate-400 font-normal">kg</span></div>
-            <div class="text-xs text-slate-400 font-semibold" id="tw-diff-info">O'zgarish farqi: ${(state.answers.targetWeight - state.answers.weight).toFixed(1)} kg</div>
-          </div>
-          <input type="range" min="35" max="190" value="${state.answers.targetWeight}" class="custom-slider" id="tw-slider" />
-          <div class="flex justify-between text-xs text-slate-600 mt-1 mb-4"><span>35 kg</span><span>190 kg</span></div>
-          <div id="tw-alert" class="p-3 rounded-xl text-xs"></div>
-        `;
-      case 7:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-              <i class="fa-solid fa-calendar-days"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[6].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[6].subtitle}</p>
-            </div>
-          </div>
-          <div class="text-center mb-6">
-            <div class="text-6xl font-black text-cyan-400 mb-1"><span id="dur-val">${state.answers.durationWeeks}</span> <span class="text-2xl text-slate-400 font-normal">hafta</span></div>
-            <div class="text-xs text-slate-400">Taxminan ${Math.round(state.answers.durationWeeks / 4.3)} oy davomida</div>
-          </div>
-          <input type="range" min="2" max="48" value="${state.answers.durationWeeks}" class="custom-slider" id="dur-slider" />
-          <div class="flex justify-between text-xs text-slate-600 mt-1 mb-4"><span>2 hafta (tezkor)</span><span>48 hafta (1 yil, barqaror)</span></div>
-          <div id="dur-alert" class="p-3 rounded-xl text-xs"></div>
-        `;
-      case 8:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-              <i class="fa-solid fa-glass-water"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[7].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[7].subtitle}</p>
-            </div>
-          </div>
-          <div class="text-center mb-4">
-            <div class="text-6xl font-black text-cyan-400 mb-1"><span id="water-val">${state.answers.waterIntake}</span> <span class="text-2xl text-slate-400 font-normal">Litr</span></div>
-            <div class="text-xs text-slate-400 font-medium">(O'rtacha ${Math.round(state.answers.waterIntake / 0.25)} ta 250ml hajmli stakan)</div>
-          </div>
-          <div class="flex justify-center gap-2 my-4 flex-wrap" id="water-glasses"></div>
-          <input type="range" min="0.5" max="5.5" step="0.1" value="${state.answers.waterIntake}" class="custom-slider" id="water-slider" />
-          <div class="flex justify-between text-xs text-slate-600 mt-1"><span>0.5 L</span><span>5.5 L</span></div>
-        `;
-      case 9:
-        return `
-          <div class="mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-              <i class="fa-solid fa-moon"></i>
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-white">${STEP_TITLES[8].title}</h2>
-              <p class="text-xs text-slate-400">${STEP_TITLES[8].subtitle}</p>
-            </div>
-          </div>
-          <div class="text-center mb-4">
-            <div class="text-6xl font-black text-purple-400 mb-1"><span id="sleep-val">${state.answers.sleepHours}</span> <span class="text-2xl text-slate-400 font-normal">soat</span></div>
-            <div class="text-xs font-semibold" id="sleep-status"></div>
-          </div>
-          <input type="range" min="4" max="11" step="0.5" value="${state.answers.sleepHours}" class="custom-slider" id="sleep-slider" />
-          <div class="flex justify-between text-xs text-slate-600 mt-1 mb-4"><span>4 soat</span><span>11 soat</span></div>
-          <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-300 font-medium">&lt; 7 soat: Kortizol oshishi & yog' parchalanishi sekinlashishi</div>
-            <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">7–9 soat: Fiziologik optimal tiklanish va gormonal balans</div>
-            <div class="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-medium">&gt; 9 soat: Haddan tashqari uzoq uyqu (passivlik xavfi)</div>
-          </div>
-        `;
-    }
-  }
-
-  function bindEventsForStep(s) {
-    if (s === 1) {
-      document.querySelectorAll('[data-gender]').forEach(c => {
-        c.addEventListener('click', () => {
-          if (c.classList.contains('selected')) return;
-          document.querySelectorAll('[data-gender]').forEach(x => x.classList.remove('selected'));
-          c.classList.add('selected');
-          state.answers.gender = c.dataset.gender;
-          document.getElementById('v-msg').textContent = '';
-          autoAdvance();
-        });
-      });
-    } else if (s === 2) {
-      const ageS = document.getElementById('age-slider');
-      const hS = document.getElementById('h-slider');
-      ageS.addEventListener('input', () => {
-        state.answers.age = +ageS.value;
-        document.getElementById('age-val').textContent = state.answers.age;
-      });
-      hS.addEventListener('input', () => {
-        state.answers.height = +hS.value;
-        document.getElementById('h-val').textContent = state.answers.height;
-      });
-    } else if (s === 3) {
-      const wS = document.getElementById('w-slider');
-      const wI = document.getElementById('w-input');
-      wS.addEventListener('input', () => {
-        state.answers.weight = +wS.value;
-        wI.value = state.answers.weight;
-        document.getElementById('w-val').textContent = state.answers.weight;
-      });
-      wI.addEventListener('input', () => {
-        const val = Math.min(Math.max(+wI.value || 35, 35), 190);
-        state.answers.weight = val;
-        wS.value = val;
-        document.getElementById('w-val').textContent = val;
-      });
-    } else if (s === 4) {
-      document.querySelectorAll('[data-goal]').forEach(c => {
-        c.addEventListener('click', () => {
-          if (c.classList.contains('selected')) return;
-          document.querySelectorAll('[data-goal]').forEach(x => x.classList.remove('selected'));
-          c.classList.add('selected');
-          state.answers.goal = c.dataset.goal;
-          document.getElementById('v-msg').textContent = '';
-          autoAdvance();
-        });
-      });
-    } else if (s === 5) {
-      document.querySelectorAll('[data-activity]').forEach(c => {
-        c.addEventListener('click', () => {
-          if (c.classList.contains('selected')) return;
-          document.querySelectorAll('[data-activity]').forEach(x => x.classList.remove('selected'));
-          c.classList.add('selected');
-          state.answers.activity = +c.dataset.activity;
-          document.getElementById('v-msg').textContent = '';
-          autoAdvance();
-        });
-      });
-    } else if (s === 6) {
-      const twS = document.getElementById('tw-slider');
-      const updateTwNotice = () => {
-        const diff = state.answers.targetWeight - state.answers.weight;
-        document.getElementById('tw-val').textContent = state.answers.targetWeight;
-        document.getElementById('tw-diff-info').textContent = `Farq: ${diff > 0 ? '+' : ''}${diff.toFixed(1)} kg`;
-        const alertBox = document.getElementById('tw-alert');
-        const hM = state.answers.height / 100;
-        const targetBmi = state.answers.targetWeight / (hM * hM);
-        if (targetBmi < 16 || targetBmi > 38) {
-          alertBox.className = 'p-3 rounded-xl text-xs alert-danger';
-          alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Maqsadli BMI: ${targetBmi.toFixed(1)} (Juda xavfli ko'rsatkich!)`;
-        } else {
-          alertBox.className = 'p-3 rounded-xl text-xs alert-success';
-          alertBox.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i> Maqsadli BMI: ${targetBmi.toFixed(1)} (Sog'lom va realistik diapazon)`;
-        }
-      };
-      twS.addEventListener('input', () => {
-        state.answers.targetWeight = +twS.value;
-        updateTwNotice();
-      });
-      updateTwNotice();
-    } else if (s === 7) {
-      const durS = document.getElementById('dur-slider');
-      const updateDurNotice = () => {
-        const w = state.answers.durationWeeks;
-        document.getElementById('dur-val').textContent = w;
-        const diff = state.answers.targetWeight - state.answers.weight;
-        const rate = Math.abs(diff / w);
-        const alertBox = document.getElementById('dur-alert');
-        if (rate > 1.0) {
-          alertBox.className = 'p-3 rounded-xl text-xs alert-danger';
-          alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Haftalik tezlik: ${rate.toFixed(2)} kg/hafta (Juda tez va xavfli! Muddatni uzaytiring)`;
-        } else {
-          alertBox.className = 'p-3 rounded-xl text-xs alert-success';
-          alertBox.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i> Haftalik sur'at: ${rate.toFixed(2)} kg/hafta (Xavfsiz va barqaror marom)`;
-        }
-      };
-      durS.addEventListener('input', () => {
-        state.answers.durationWeeks = +durS.value;
-        updateDurNotice();
-      });
-      updateDurNotice();
-    } else if (s === 8) {
-      const wS = document.getElementById('water-slider');
-      const renderGlasses = (val) => {
-        const glassesCount = Math.min(Math.round(val / 0.25), 16);
-        const container = document.getElementById('water-glasses');
-        container.innerHTML = Array.from({ length: 12 }, (_, i) => {
-          const filled = i < glassesCount;
-          return `
-            <div class="water-glass ${filled ? 'filled' : ''}" data-gidx="${i + 1}">
-              <div class="water-fill" style="height:${filled ? '100%' : '0%'}"></div>
-            </div>
-          `;
-        }).join('');
-      };
-      wS.addEventListener('input', () => {
-        state.answers.waterIntake = +parseFloat(wS.value).toFixed(1);
-        document.getElementById('water-val').textContent = state.answers.waterIntake;
-        renderGlasses(state.answers.waterIntake);
-      });
-      renderGlasses(state.answers.waterIntake);
-    } else if (s === 9) {
-      const slS = document.getElementById('sleep-slider');
-      const updateSleepStatus = (val) => {
-        const el = document.getElementById('sleep-status');
-        if (val < 7) {
-          el.className = 'text-xs text-rose-400 font-semibold';
-          el.textContent = '⚠ Uyqu yetarli emas: -15% metabolizm sekinlashishi';
-        } else if (val <= 9) {
-          el.className = 'text-xs text-emerald-400 font-semibold';
-          el.textContent = '✓ Ideal biologik me\'yor: Maksimal mushak va asab tiklanishi';
-        } else {
-          el.className = 'text-xs text-cyan-400 font-semibold';
-          el.textContent = 'Uzoq uyqu davomiyligi';
-        }
-      };
-      slS.addEventListener('input', () => {
-        state.answers.sleepHours = +parseFloat(slS.value).toFixed(1);
-        document.getElementById('sleep-val').textContent = state.answers.sleepHours;
-        updateSleepStatus(state.answers.sleepHours);
-      });
-      updateSleepStatus(state.answers.sleepHours);
-    }
-  }
-
-  function validateCurrentStep() {
-    const s = state.step;
-    const msgEl = document.getElementById('v-msg');
-    if (s === 1 && !state.answers.gender) {
-      if (msgEl) { msgEl.className = 'validation-msg error'; msgEl.textContent = 'Iltimos, jinsingizni tanlang!'; }
-      return false;
-    }
-    if (s === 4 && !state.answers.goal) {
-      if (msgEl) { msgEl.className = 'validation-msg error'; msgEl.textContent = 'Iltimos, maqsadingizni tanlang!'; }
-      return false;
-    }
-    if (s === 5 && !state.answers.activity) {
-      if (msgEl) { msgEl.className = 'validation-msg error'; msgEl.textContent = 'Iltimos, faollik darajangizni tanlang!'; }
-      return false;
-    }
-    return true;
-  }
-
-  function nextStep() {
-    if (!validateCurrentStep()) return;
-    if (state.step < state.totalSteps) {
-      state.step++;
-      renderCurrentStep();
-    } else {
-      showDashboard();
-    }
-  }
-
-  function prevStep() {
-    if (state.step > 1) {
-      state.step--;
-      renderCurrentStep();
-    }
-  }
-
-  function showDashboard() {
-    calculateDiagnostics();
-    saveState();
-    document.getElementById('stepper-section').classList.add('hidden');
-    const dashSec = document.getElementById('dashboard-section');
-    dashSec.classList.remove('hidden');
-    document.getElementById('print-btn').style.display = 'flex';
-    document.getElementById('reset-btn').style.display = 'flex';
-    document.getElementById('header-step-label').innerHTML = `<i class="fa-solid fa-chart-pie text-xs"></i><span>Diagnostika Natijasi</span>`;
-    document.getElementById('print-date').textContent = `Hisobot vaqti: ${new Date().toLocaleDateString('uz-UZ', { year:'numeric', month:'long', day:'numeric' })}`;
-
-    dashSec.querySelector('#dashboard-content').innerHTML = generateDashboardMarkup();
-    setTimeout(() => {
-      initCharts();
-    }, 50);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function generateDashboardMarkup() {
-    const m = state.metrics;
-    const a = state.answers;
-    const gObj = GOAL_OPTIONS.find(x => x.val === a.goal);
-    const actObj = ACTIVITY_OPTIONS.find(x => x.val === a.activity);
-    
-    // ... we will modify generateDashboardMarkup in the next step
-
-    const bmiAngle = Math.min(Math.max(((m.bmi - 15) / 25) * 180 - 90, -90), 90);
-
-    return `
-      <!-- TOP STATUS -->
-      <div class="glass-strong p-6 sm:p-8 mb-6 dashboard-section">
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-          <div>
-            <div class="badge text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 mb-2">
-              <i class="fa-solid fa-check-double"></i> Tahlil Muvaffaqiyatli Yakunlandi
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-black text-white">Biometrik Diagnostika Xulosasi</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">
-              Maqsad: <strong class="text-white">${gObj.label}</strong> | Faollik: <strong class="text-slate-300">${actObj.label}</strong>
-            </p>
-          </div>
-          <div class="flex items-center gap-3 no-print">
-            <button onclick="window.print()" class="btn-primary px-5 py-2.5 text-sm text-white flex items-center gap-2">
-              <i class="fa-solid fa-file-arrow-down"></i> Natijalarni Saqlash (PDF)
-            </button>
-            <button onclick="resetApp()" class="btn-danger px-4 py-2.5 text-sm flex items-center gap-2">
-              <i class="fa-solid fa-rotate-left"></i> Qayta
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-white/10 text-xs">
-          <div><span class="text-slate-500 block">Jins & Yosh:</span><strong class="text-white">${a.gender === 'male' ? 'Erkak' : 'Ayol'}, ${a.age} yosh</strong></div>
-          <div><span class="text-slate-500 block">Bo'y & Vazn:</span><strong class="text-white">${a.height} sm, ${a.weight} kg</strong></div>
-          <div><span class="text-slate-500 block">Maqsadli Vazn:</span><strong class="text-emerald-400">${a.targetWeight} kg (${a.durationWeeks} hafta)</strong></div>
-          <div><span class="text-slate-500 block">Umumiy Ball:</span><strong class="text-cyan-400">${m.totalScore} / 100 ball</strong></div>
-        </div>
-      </div>
-
-      <!-- WARNINGS -->
-      ${state.warnings.length ? `
-        <div class="mb-6 flex flex-col gap-3 dashboard-section">
-          ${state.warnings.map(w => `
-            <div class="alert-${w.type} p-4 flex gap-3 items-start">
-              <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${w.type === 'danger' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">
-                <i class="fa-solid ${w.icon}"></i>
-              </div>
-              <div>
-                <div class="font-bold text-sm text-white mb-0.5">${w.title}</div>
-                <div class="text-xs text-slate-300 leading-relaxed">${w.msg}</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      ` : ''}
-
-      <!-- PROGRESS GALLERY -->
-      <div class="glass-strong p-6 mb-6 dashboard-section no-print">
-        <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-camera-retro text-fuchsia-400"></i> O'zgarishlar Galereyasi (Progress Tracker)
-        </h3>
-        <p class="text-xs text-slate-400 mb-4">Birinchi kungi va joriy holatingizni yuklang. Vizual o'zgarish – eng katta motivatsiya!</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="p-4 rounded-xl border border-dashed border-white/20 bg-white/5 text-center relative group">
-            <div class="text-sm font-bold text-slate-300 mb-2">1-Kun (Boshlang'ich)</div>
-            ${state.tracker.photoBefore ? `
-              <img src="${state.tracker.photoBefore}" class="w-full h-48 object-cover rounded-lg shadow-lg" />
-              <button onclick="clearPhoto('before')" class="absolute top-2 right-2 bg-rose-500/80 text-white w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i class="fa-solid fa-trash"></i></button>
-            ` : `
-              <label class="flex flex-col items-center justify-center h-48 cursor-pointer rounded-lg hover:bg-white/5 transition-colors">
-                <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-500 mb-2"></i>
-                <span class="text-xs text-slate-400">Rasm yuklash</span>
-                <input type="file" accept="image/*" class="hidden" onchange="onPhotoUpload(event, 'before')">
-              </label>
-            `}
-          </div>
-          <div class="p-4 rounded-xl border border-dashed border-white/20 bg-white/5 text-center relative group">
-            <div class="text-sm font-bold text-slate-300 mb-2">Joriy Holat (Natija)</div>
-            ${state.tracker.photoCurrent ? `
-              <img src="${state.tracker.photoCurrent}" class="w-full h-48 object-cover rounded-lg shadow-lg border-2 border-emerald-400/50" />
-              <button onclick="clearPhoto('current')" class="absolute top-2 right-2 bg-rose-500/80 text-white w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i class="fa-solid fa-trash"></i></button>
-            ` : `
-              <label class="flex flex-col items-center justify-center h-48 cursor-pointer rounded-lg hover:bg-emerald-500/5 transition-colors">
-                <i class="fa-solid fa-camera text-3xl text-emerald-500/50 mb-2"></i>
-                <span class="text-xs text-slate-400">Yangi natijani yuklash</span>
-                <input type="file" accept="image/*" class="hidden" onchange="onPhotoUpload(event, 'current')">
-              </label>
-            `}
-          </div>
-        </div>
-      </div>
-
-      <!-- DAILY HABITS & WATER TRACKER -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 dashboard-section no-print">
-        <div class="glass p-5">
-          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
-            <i class="fa-solid fa-glass-water text-cyan-400"></i> Suv Balansi (Bugun)
-          </h3>
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-2xl font-black text-cyan-400" id="water-drunk-text">${state.tracker.waterDrunkLiters.toFixed(2)} L</span>
-            <span class="text-xs text-slate-400">Maqsad: ${m.waterReqL} L</span>
-          </div>
-          <div class="h-2 w-full bg-slate-800 rounded-full mb-4 overflow-hidden">
-            <div id="water-progress-bar" class="h-full bg-cyan-400 transition-all duration-300" style="width: ${Math.min(100, (state.tracker.waterDrunkLiters / m.waterReqL) * 100)}%"></div>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="addWater(0.25)" class="flex-1 py-2 rounded bg-cyan-500/20 text-cyan-400 text-xs font-bold hover:bg-cyan-500/30 transition">+250 ml</button>
-            <button onclick="addWater(0.50)" class="flex-1 py-2 rounded bg-cyan-500/20 text-cyan-400 text-xs font-bold hover:bg-cyan-500/30 transition">+500 ml</button>
-            <button onclick="addWater(-0.25)" class="px-3 py-2 rounded bg-slate-800 text-slate-400 text-xs hover:bg-slate-700 transition"><i class="fa-solid fa-rotate-left"></i></button>
-          </div>
-        </div>
-        <div class="glass p-5 flex flex-col justify-center text-center">
-          <i class="fa-solid fa-fire-flame-curved text-amber-400 text-3xl mb-2"></i>
-          <div class="text-sm font-bold text-white mb-1">Muvaffaqiyat Siri</div>
-          <div class="text-xs text-slate-400">"Katta o'zgarishlar kichik, lekin barqaror kunlik odatlardan boshlanadi. Bugungi maqsadingizni bajaring!"</div>
-        </div>
-      </div>
-
-      <!-- KEY METRICS CARDS -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6 dashboard-section">
-        <div class="glass p-5">
-          <div class="text-xs text-slate-400 font-semibold mb-1">Tana Massasi Indeksi (BMI)</div>
-          <div class="text-3xl font-black" style="color:${m.bmiColor}">${m.bmi}</div>
-          <div class="text-xs font-semibold mt-1" style="color:${m.bmiColor}">${m.bmiCategory}</div>
-        </div>
-        <div class="glass p-5">
-          <div class="text-xs text-slate-400 font-semibold mb-1">Asosiy Metabolizm (BMR)</div>
-          <div class="text-3xl font-black text-emerald-400">${m.bmr}</div>
-          <div class="text-xs text-slate-500 mt-1">kcal / kunlik sarf</div>
-        </div>
-        <div class="glass p-5">
-          <div class="text-xs text-slate-400 font-semibold mb-1">Jami Energiya Sarfi (TDEE)</div>
-          <div class="text-3xl font-black text-cyan-400">${m.tdee}</div>
-          <div class="text-xs text-slate-500 mt-1">kcal / faoliyat bilan</div>
-        </div>
-        <div class="glass p-5">
-          <div class="text-xs text-slate-400 font-semibold mb-1">Maqsadli Kunlik Kaloriya</div>
-          <div class="text-3xl font-black text-amber-400">${m.caloricTarget}</div>
-          <div class="text-xs font-medium mt-1 ${m.deficitSurplus < 0 ? 'text-rose-400' : 'text-emerald-400'}">
-            ${m.deficitSurplus < 0 ? `${m.deficitSurplus} kcal defitsit` : m.deficitSurplus === 0 ? 'Optimal muvozanat' : `+${m.deficitSurplus} kcal surplyus`}
-          </div>
-        </div>
-        <div class="glass p-5 col-span-2 sm:col-span-1">
-          <div class="text-xs text-slate-400 font-semibold mb-1">Tavsiya Qilingan Suv</div>
-          <div class="text-3xl font-black text-blue-400">${m.waterReqL} <span class="text-base font-normal text-slate-400">L</span></div>
-          <div class="text-xs text-slate-500 mt-1">Kunlik me'yor (gidratatsiya)</div>
-        </div>
-      </div>
-
-      <!-- CHARTS SECTION 1: MACROS & BMI GAUGE -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 dashboard-section">
-        <!-- Macros -->
-        <div class="glass-strong p-6">
-          <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-emerald-400"></i> Kunlik Makronutrientlar Balansi (Oqsil, Yog', Uglevod)
-          </h3>
-          <div class="grid grid-cols-3 gap-2 mb-4">
-            <div class="macro-pill flex-col items-start bg-emerald-500/10 border border-emerald-500/20">
-              <div class="text-xs text-slate-400 font-medium">Oqsillar (Protein)</div>
-              <div class="text-xl font-black text-emerald-400">${m.proteinG}g</div>
-              <div class="text-xs text-slate-500">${m.proteinKcal} kcal</div>
-            </div>
-            <div class="macro-pill flex-col items-start bg-amber-500/10 border border-amber-500/20">
-              <div class="text-xs text-slate-400 font-medium">Yog'lar (Fats)</div>
-              <div class="text-xl font-black text-amber-400">${m.fatG}g</div>
-              <div class="text-xs text-slate-500">${m.fatKcal} kcal</div>
-            </div>
-            <div class="macro-pill flex-col items-start bg-cyan-500/10 border border-cyan-500/20">
-              <div class="text-xs text-slate-400 font-medium">Uglevodlar (Carbs)</div>
-              <div class="text-xl font-black text-cyan-400">${m.carbG}g</div>
-              <div class="text-xs text-slate-500">${m.carbKcal} kcal</div>
-            </div>
-          </div>
-          <div class="relative h-[220px]">
-            <canvas id="chart-macros"></canvas>
-          </div>
-        </div>
-
-        <!-- BMI Gauge -->
-        <div class="glass-strong p-6 flex flex-col justify-between">
-          <div>
-            <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-              <i class="fa-solid fa-gauge-high text-cyan-400"></i> Tana Massasi Indeksi (BMI) Shkalasi
-            </h3>
-            <p class="text-xs text-slate-400 mb-4">Joriy tana holati va biologik xavfsizlik darajasi tahlili</p>
-          </div>
-          <div class="py-4 text-center">
-            <div class="gauge-container mb-4">
-              <div class="gauge-bg"></div>
-              <div class="gauge-needle" style="transform:rotate(${bmiAngle}deg);"></div>
-              <div class="gauge-center"></div>
-            </div>
-            <div class="text-3xl font-black mb-1" style="color:${m.bmiColor}">${m.bmi}</div>
-            <div class="text-sm font-semibold" style="color:${m.bmiColor}">${m.bmiCategory}</div>
-            <div class="text-xs text-slate-500 mt-1">Ko'zlangan vazndagi kutilayotgan BMI: <strong class="text-emerald-400">${m.targetBMI}</strong></div>
-          </div>
-          <div class="grid grid-cols-4 gap-1 text-center text-xs pt-3 border-t border-white/10">
-            <div class="text-blue-400">&lt;18.5<br><span class="text-slate-500">Kam vazn</span></div>
-            <div class="text-emerald-400">18.5–24.9<br><span class="text-slate-500">Normal</span></div>
-            <div class="text-amber-400">25–29.9<br><span class="text-slate-500">Ortiqcha</span></div>
-            <div class="text-rose-400">&ge;30<br><span class="text-slate-500">Semizlik</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHARTS SECTION 2: TRAJECTORY & RADAR -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 dashboard-section">
-        <!-- Weight Trajectory -->
-        <div class="glass-strong p-6">
-          <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-arrow-trend-down text-emerald-400"></i> Ilmiy Prognozlashtirilgan Vazn Traektoriyasi
-          </h3>
-          <p class="text-xs text-slate-400 mb-4">Rejalashtirilgan haftalik sur'at: <strong>${m.weeklyRate > 0 ? '+' : ''}${m.weeklyRate} kg/hafta</strong></p>
-          <div class="relative h-[240px]">
-            <canvas id="chart-trajectory"></canvas>
-          </div>
-        </div>
-
-        <!-- Radar Lifestyle -->
-        <div class="glass-strong p-6">
-          <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-heart-pulse text-purple-400"></i> Hayot Tarzi va Metabolik Samaradorlik Balansi
-          </h3>
-          <p class="text-xs text-slate-400 mb-4">Uyqu, gidratatsiya, harakat va kaloriya intizomining integratsiyasi</p>
-          <div class="relative h-[240px]">
-            <canvas id="chart-radar"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- ACTION PLAN & TIMELINE -->
-      <div class="glass-strong p-6 mb-6 dashboard-section">
-        <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-emerald-400"></i> Shaxsiy Tavsiyalar va Bosqichma-Bosqich Harakatlar Rejasi
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs leading-relaxed">
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-            <div class="font-bold text-sm text-emerald-400 mb-2 flex items-center gap-2"><i class="fa-solid fa-utensils"></i> Oziqlanish Strategiyasi</div>
-            <ul class="space-y-2 text-slate-300">
-              <li>• Kunlik me'yor: <strong>${m.caloricTarget} kcal</strong> (aniq hisob bilan nazorat qilish)</li>
-              <li>• Kuniga <strong>${m.proteinG}g to'liq qimmatli oqsil</strong>ni 3-4 qismga teng taqsimlang</li>
-              <li>• Kechki soat 20:00 dan so'ng og'ir va oddiy uglevodlarni cheklang</li>
-              <li>• Gazlanmagan toza suv miqdorini <strong>kamida ${m.waterReqL} litr</strong>ga yetkazing</li>
-            </ul>
-          </div>
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-            <div class="font-bold text-sm text-cyan-400 mb-2 flex items-center gap-2"><i class="fa-solid fa-dumbbell"></i> Jismoniy Yuklama Rejimi</div>
-            <ul class="space-y-2 text-slate-300">
-              <li>• Haftasiga 3–4 marotaba 45–60 daqiqalik maqsadli mashg'ulotlar</li>
-              <li>• Kunlik yurish faolligini 8,000–10,000 qadamga yetkazish</li>
-              <li>• Har bir mashg'ulot yakunida 10 daqiqa yengil cho'zilish (stretching)</li>
-              <li>• Mushak tolalari o'sishi va yog' erishi uchun yuklamalarni bosqichma-bosqich oshirish</li>
-            </ul>
-          </div>
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-            <div class="font-bold text-sm text-purple-400 mb-2 flex items-center gap-2"><i class="fa-solid fa-bed"></i> Tiklanish va Biologik Tartib</div>
-            <ul class="space-y-2 text-slate-300">
-              <li>• Har kecha <strong>kamida 7.5–8 soat</strong> qorong'i va salqin xonada sifatli uxlash</li>
-              <li>• Uyqudan 1 soat oldin barcha smartfon va ko'k nurlanuvchi ekranlarni cheklash</li>
-              <li>• Har haftaning dushanba tongida och qoringa tana vaznini tarozida qayd etish</li>
-              <li>• O'zgarishlarni tahlil qilib, har 4 haftada kaloriyalar balansini yangilab borish</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- DETAILED MEAL PLAN -->
-      <div class="glass-strong p-6 mb-6 dashboard-section">
-        <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-bowl-food text-amber-400"></i> Sizning Shaxsiy Kunlik Ratsioningiz (${m.caloricTarget} kcal)
-        </h3>
-        <p class="text-xs text-slate-400 mb-4">Ushbu taomnoma sizning maqsadingiz (<strong>${gObj.label}</strong>) va hisoblangan makronutrientlar (<strong>${m.proteinG}g oqsil, ${m.fatG}g yog', ${m.carbG}g uglevod</strong>) asosida tuzildi.</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Breakfast -->
-          <div class="bg-white/5 border border-white/10 rounded-lg p-4 transition-all hover:bg-white/10 hover:border-amber-500/30">
-            <div class="flex items-center justify-between mb-2">
-              <div class="font-bold text-sm text-amber-400"><i class="fa-solid fa-sun mr-2"></i> Nonushta (25-30%)</div>
-              <div class="text-xs text-slate-500 font-bold">~${Math.round(m.caloricTarget * 0.28)} kcal</div>
-            </div>
-            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-              <li>3-4 dona butun tuxum yoki 150g tvorog (oqsil)</li>
-              <li>50-60g suli yormasi (ovsyanka) yoki grechka (uglevod)</li>
-              <li>10-15g yong'oq yoki 1 qoshiq yong'oq pastasi (yog')</li>
-            </ul>
-          </div>
-          <!-- Lunch -->
-          <div class="bg-white/5 border border-white/10 rounded-lg p-4 transition-all hover:bg-white/10 hover:border-amber-500/30">
-            <div class="flex items-center justify-between mb-2">
-              <div class="font-bold text-sm text-amber-400"><i class="fa-solid fa-cloud-sun mr-2"></i> Tushlik (35-40%)</div>
-              <div class="text-xs text-slate-500 font-bold">~${Math.round(m.caloricTarget * 0.38)} kcal</div>
-            </div>
-            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-              <li>150-200g tovuq felesi yoki mol go'shti (oqsil)</li>
-              <li>70-80g (quruq vaznda) guruch yoki makaron (quvvat)</li>
-              <li>Katta hajmda zaytun yog'li sabzavotli salat (kletchatka)</li>
-            </ul>
-          </div>
-          <!-- Dinner -->
-          <div class="bg-white/5 border border-white/10 rounded-lg p-4 transition-all hover:bg-white/10 hover:border-amber-500/30">
-            <div class="flex items-center justify-between mb-2">
-              <div class="font-bold text-sm text-amber-400"><i class="fa-solid fa-moon mr-2"></i> Kechki ovqat (20-25%)</div>
-              <div class="text-xs text-slate-500 font-bold">~${Math.round(m.caloricTarget * 0.22)} kcal</div>
-            </div>
-            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-              <li>150g yog'siz baliq, qisqichbaqa yoki tovuq ko'kragi</li>
-              <li>Faqat sabzavotlar (brokkoli, ismaloq) - uglevodsiz!</li>
-              <li>Yarimta avokado yoki biroz o'simlik yog'i</li>
-            </ul>
-          </div>
-          <!-- Snacks -->
-          <div class="bg-white/5 border border-white/10 rounded-lg p-4 transition-all hover:bg-white/10 hover:border-amber-500/30">
-            <div class="flex items-center justify-between mb-2">
-              <div class="font-bold text-sm text-amber-400"><i class="fa-solid fa-apple-whole mr-2"></i> Qushimcha (Snacks)</div>
-              <div class="text-xs text-slate-500 font-bold">~${Math.round(m.caloricTarget * 0.12)} kcal</div>
-            </div>
-            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-              <li>Mashqdan so'ng: Protein kokteyli (zardob)</li>
-              <li>Kunning yarmida: 1 ta olma yoki 20g yong'oq (bodom/yong'oq)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function initCharts() {
-    const m = state.metrics;
-    const a = state.answers;
-
-    // Macro Chart
-    const ctxM = document.getElementById('chart-macros');
-    if (ctxM) {
-      if (state.charts.macro) state.charts.macro.destroy();
-      state.charts.macro = new Chart(ctxM, {
-        type: 'doughnut',
-        data: {
-          labels: ['Oqsil (g)', 'Yog\'lar (g)', 'Uglevodlar (g)'],
-          datasets: [{
-            data: [m.proteinG, m.fatG, m.carbG],
-            backgroundColor: ['#10B981', '#F472B6', '#22D3EE'],
-            borderColor: '#0B0F19',
-            borderWidth: 3,
-            hoverOffset: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { color: '#CBD5E1', font: { size: 11, family: 'Plus Jakarta Sans', weight: '600' } }
-            }
-          },
-          cutout: '72%'
-        }
-      });
-    }
-
-    // Trajectory Chart
-    const ctxT = document.getElementById('chart-trajectory');
-    if (ctxT) {
-      if (state.charts.traj) state.charts.traj.destroy();
-      const labels = state.metrics.trajectory.map((_, i) => i === 0 ? 'Boshlash' : `${i}-h`);
-      state.charts.traj = new Chart(ctxT, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Prognoz Vazn (kg)',
-            data: state.metrics.trajectory,
-            borderColor: '#22D3EE',
-            backgroundColor: 'rgba(34, 211, 238, 0.12)',
-            fill: true,
-            tension: 0.38,
-            pointBackgroundColor: '#A78BFA',
-            pointBorderColor: '#22D3EE',
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: {
-              grid: { color: 'rgba(255,255,255,0.04)' },
-              ticks: { color: '#94A3B8', font: { size: 10 } }
-            },
-            y: {
-              grid: { color: 'rgba(255,255,255,0.04)' },
-              ticks: { color: '#94A3B8', font: { size: 10 } }
-            }
-          }
-        }
-      });
-    }
-
-    // Radar Chart
-    const ctxR = document.getElementById('chart-radar');
-    if (ctxR) {
-      if (state.charts.radar) state.charts.radar.destroy();
-      state.charts.radar = new Chart(ctxR, {
-        type: 'radar',
-        data: {
-          labels: ['Uyqu sifati', 'Gidratatsiya', 'Faollik darajasi', 'Kaloriya intizomi'],
-          datasets: [{
-            label: 'Sizning ko\'rsatkichingiz',
-            data: [m.sleepScore, m.hydraScore, m.actScore, m.calScore],
-            backgroundColor: 'rgba(167, 139, 250, 0.22)',
-            borderColor: '#A78BFA',
-            borderWidth: 2.5,
-            pointBackgroundColor: '#34D399',
-            pointBorderColor: '#A78BFA',
-            pointBorderWidth: 2,
-            pointRadius: 4
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            r: {
-              suggestedMin: 0,
-              suggestedMax: 100,
-              angleLines: { color: 'rgba(167, 139, 250, 0.2)' },
-              grid: { color: 'rgba(255,255,255,0.07)' },
-              pointLabels: { color: '#E2E8F0', font: { size: 11, weight: '600' } },
-              ticks: { display: false }
-            }
-          },
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
-    }
-  }
-
-  function resetApp() {
-    localStorage.removeItem('smartFitnessState');
-    state.step = 1;
-    state.answers.gender = null;
-    state.answers.goal = null;
-    state.answers.activity = null;
-    state.tracker = { photoBefore: null, photoCurrent: null, waterDrunkLiters: 0 };
-    document.getElementById('dashboard-section').classList.add('hidden');
-    document.getElementById('stepper-section').classList.remove('hidden');
-    document.getElementById('print-btn').style.display = 'none';
-    document.getElementById('reset-btn').style.display = 'none';
-    renderCurrentStep();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (!document.getElementById('stepper-section').classList.contains('hidden')) {
-      if (e.key === 'Enter') nextStep();
-    }
-  });
-
-  // Interactive Cyber-Fitness Particle Background Animation
-  function initParticles() {
-    const canvas = document.getElementById('particles-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    const particles = [];
-    const particleCount = 35;
-    const colors = ['rgba(16,185,129,0.3)', 'rgba(6,182,212,0.3)', 'rgba(245,158,11,0.2)'];
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
-        radius: Math.random() * 2 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)]
-      });
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-
-      // Draw and connect particles
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 110) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(16,185,129,${0.12 * (1 - dist / 110)})`;
-            ctx.lineWidth = 0.8;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-  }
-
-  // Interactivity Handlers
-  window.onPhotoUpload = function(event, type) {
-    const file = event.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      state.tracker[type === 'before' ? 'photoBefore' : 'photoCurrent'] = e.target.result;
-      saveState();
-      showDashboard();
-    };
-    reader.readAsDataURL(file);
-  };
-  
-  window.clearPhoto = function(type) {
-    state.tracker[type === 'before' ? 'photoBefore' : 'photoCurrent'] = null;
-    saveState();
-    showDashboard();
-  };
-  
-  window.addWater = function(amount) {
-    state.tracker.waterDrunkLiters = Math.max(0, state.tracker.waterDrunkLiters + amount);
-    saveState();
-    document.getElementById('water-drunk-text').innerText = state.tracker.waterDrunkLiters.toFixed(2) + ' L';
-    const percent = Math.min(100, (state.tracker.waterDrunkLiters / state.metrics.waterReqL) * 100);
-    document.getElementById('water-progress-bar').style.width = percent + '%';
-  };
-
-  // START
-  loadState();
-  initParticles();
-  if (state.step === 10) {
-    showDashboard();
-  } else {
-    renderCurrentStep();
-  }
-  </script>
 </body>
 </html>
