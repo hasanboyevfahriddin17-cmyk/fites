@@ -1,281 +1,91 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zamonaviy Kirish Sahifasi</title>
-  <!-- Google Fonts & FontAwesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    body {
-      background-color: #080711;
-      color: #fff;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* --- ANTIQA VA ZAMONAVIY ORQA FON EFFEKTI --- */
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    /* Harakatlanuvchi neon nurlar */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.6;
-      animation: float 12s infinite alternate ease-in-out;
-    }
-
-    .blob-1 {
-      width: 450px;
-      height: 450px;
-      background: linear-gradient(135deg, #ff007f, #7928ca);
-      top: -100px;
-      left: -100px;
-    }
-
-    .blob-2 {
-      width: 500px;
-      height: 500px;
-      background: linear-gradient(135deg, #00f2fe, #4facfe);
-      bottom: -150px;
-      right: -100px;
-      animation-duration: 16s;
-    }
-
-    .blob-3 {
-      width: 350px;
-      height: 350px;
-      background: linear-gradient(135deg, #00f5d4, #7b2cbf);
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation-duration: 20s;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translate(0, 0) scale(1);
-      }
-      100% {
-        transform: translate(80px, 60px) scale(1.15);
-      }
-    }
-
-    /* Grid to'ri foni */
-    .grid-overlay {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-      background-size: 50px 50px;
-      mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
-    }
-
-    /* --- ASOSIY HERO / KIRISH BLOKI --- */
-    .hero-container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .glass-card {
-      position: relative;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 30px;
-      padding: 60px 40px;
-      max-width: 800px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
-                  inset 0 0 20px rgba(255, 255, 255, 0.05);
-      animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    /* Zamonaviy Badge */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 50px;
-      font-size: 0.85rem;
-      color: #00f2fe;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 25px;
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #00f5d4;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #00f5d4;
-    }
-
-    /* Sarlavha */
-    .title {
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 70%, #00f2fe 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      font-size: 1.15rem;
-      color: #94a3b8;
-      max-width: 600px;
-      margin: 0 auto 40px;
-      line-height: 1.6;
-    }
-
-    /* Tugmalar bo'limi */
-    .action-group {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 16px 36px;
-      border-radius: 14px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #00f2fe, #4facfe);
-      color: #080711;
-      border: none;
-      box-shadow: 0 10px 25px rgba(0, 242, 254, 0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 15px 35px rgba(0, 242, 254, 0.5);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Pastki ko'rsatkichlar */
-    .features-strip {
-      margin-top: 45px;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 30px;
-      color: #64748b;
-      font-size: 0.9rem;
-    }
-
-    .features-strip span {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Club</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top, #1a1a24, #0b0b0e);
+            color: #f1f1f1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(22, 22, 29, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 32px;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 26px;
+            letter-spacing: -0.5px;
+        }
+        label {
+            display: block;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            background: #111116;
+            border: 1px solid #272732;
+            border-radius: 10px;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus, select:focus {
+            border-color: #3b82f6;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 24px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Azo bolish</h1>
+        <form action="/register" method="POST">
+            <label for="name">Ismingiz</label>
+            <input type="text" id="name" name="name" required>
 
-  <!-- Orqa fon nurlari -->
-  <div class="bg-animation">
-    <div class="grid-overlay"></div>
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
+            <label for="phone">Telefon raqam</label>
+            <input type="tel" id="phone" name="phone" required>
 
-  <!-- Boshlang'ich Hero / Kirish qismi -->
-  <main class="hero-container">
-    <div class="glass-card">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Kelajak texnologiyasi
-      </div>
-      
-      <h1 class="title">Boshqaruv va Imkoniyatlar Yangi Bosqichda</h1>
-      
-      <p class="subtitle">
-        Tizimga kirish orqali barcha qulayliklardan foydalaning. Tezkor, qulay va to‘liq himoyalangan zamonaviy interfeys.
-      </p>
+            <label for="plan">Tarif</label>
+            <select id="plan" name="plan">
+                <option value="Standard">Standard</option>
+                <option value="Premium">Premium</option>
+                <option value="VIP">VIP</option>
+            </select>
 
-      <div class="action-group">
-        <a href="admin.html" class="btn btn-primary">
-          <i class="fa-solid fa-arrow-right-to-bracket"></i> Tizimga Kirish
-        </a>
-        <a href="create.py" class="btn btn-secondary">
-          <i class="fa-solid fa-plus"></i> Yangi Yaratish
-        </a>
-      </div>
-
-      <div class="features-strip">
-        <span><i class="fa-solid fa-shield-halved"></i> 100% Xavfsiz</span>
-        <span><i class="fa-solid fa-bolt"></i> Ultra Tezkor</span>
-        <span><i class="fa-solid fa-code"></i> Zamonaviy API</span>
-      </div>
+            <button type="submit">Royxatdan otish</button>
+        </form>
     </div>
-  </main>
-
 </body>
 </html>
