@@ -3,120 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Club</title>
+    <title>OBSIDIAN GYM</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, sans-serif;
-            background: radial-gradient(circle at top, #16161d, #08080a);
-            color: #f1f1f1;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0c10;
+            background-image: radial-gradient(circle at top center, #1b1d28 0%, #0b0c10 75%);
+            color: #c5c6c7;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 24px 16px;
         }
-        .container {
+
+        .card {
             width: 100%;
-            max-width: 440px;
-            background: rgba(18, 18, 24, 0.9);
+            max-width: 480px;
+            background: rgba(18, 20, 29, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
             padding: 32px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
         }
+
+        .header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(69, 162, 158, 0.15);
+            color: #66fcf1;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
         h1 {
-            margin-top: 0;
-            font-size: 24px;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
             letter-spacing: -0.5px;
         }
+
+        p.subtitle {
+            color: #8c8d96;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
         label {
             display: block;
-            margin-top: 14px;
-            font-size: 14px;
-            color: #a1a1aa;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #e0e2ec;
         }
-        input, select {
+
+        input {
             width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            background: #0f0f13;
-            border: 1px solid #272732;
-            border-radius: 8px;
-            color: #fff;
-            box-sizing: border-box;
+            padding: 14px 16px;
+            background: #11121a;
+            border: 1px solid #232533;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 15px;
             outline: none;
+            transition: all 0.2s ease;
         }
-        input:focus, select:focus {
-            border-color: #3b82f6;
+
+        input:focus {
+            border-color: #66fcf1;
+            box-shadow: 0 0 0 3px rgba(102, 252, 241, 0.15);
         }
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 22px;
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
         }
-        button:hover {
-            background: #1d4ed8;
-        }
-        .link {
-            display: block;
+
+        .plan-card {
+            border: 1px solid #232533;
+            background: #11121a;
+            padding: 14px 10px;
+            border-radius: 12px;
             text-align: center;
-            margin-top: 18px;
-            color: #60a5fa;
-            text-decoration: none;
-            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .link:hover {
-            text-decoration: underline;
+
+        .plan-card input[type="radio"] {
+            display: none;
+        }
+
+        .plan-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            display: block;
+        }
+
+        .plan-price {
+            font-size: 11px;
+            color: #8c8d96;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .plan-card:has(input[type="radio"]:checked) {
+            border-color: #66fcf1;
+            background: rgba(102, 252, 241, 0.08);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #45a29e;
+            color: #0b0c10;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #66fcf1;
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.35);
+        }
+
+        .alert-box {
+            display: none;
+            background: rgba(46, 213, 115, 0.15);
+            border: 1px solid #2ed573;
+            color: #2ed573;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .footer-nav {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .footer-nav a {
+            color: #8c8d96;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-nav a:hover {
+            color: #66fcf1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Azo bolish</h1>
-        <form id="regForm">
-            <label for="name">Ismingiz</label>
-            <input type="text" id="name" required>
 
-            <label for="phone">Telefon raqam</label>
-            <input type="tel" id="phone" required>
+    <div class="card">
+        <div class="header">
+            <span class="badge">Azo bolish</span>
+            <h1>Obsidian Fitness Club</h1>
+            <p class="subtitle">Oz mashgulotingizni bugunoq boshlang</p>
+        </div>
 
-            <label for="plan">Tarif</label>
-            <select id="plan">
-                <option value="Standard">Standard</option>
-                <option value="Premium">Premium</option>
-                <option value="VIP">VIP</option>
-            </select>
+        <div id="alertBox" class="alert-box">Royxatdan muvaffaqiyatli otdingiz</div>
 
-            <button type="submit">Royxatdan otish</button>
+        <form id="membershipForm">
+            <div class="form-group">
+                <label for="fullName">Ism va familiyangiz</label>
+                <input type="text" id="fullName" placeholder="Ali Valiyev" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Telefon raqamingiz</label>
+                <input type="tel" id="phoneNumber" placeholder="+998 90 123 45 67" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tarifni tanlang</label>
+                <div class="plan-grid">
+                    <label class="plan-card">
+                        <input type="radio" name="plan" value="Standard" checked>
+                        <span class="plan-name">Standard</span>
+                        <span class="plan-price">300 000 som</span>
+                    </label>
+
+                    <label class="plan-card">
+                        <input type="radio" name="plan" value="Premium">
+                        <span class="plan-name">Premium</span>
+                        <span class="plan-price">500 000 som</span>
+                    </label>
+
+                    <label class="plan-card">
+                        <input type="radio" name="plan" value="VIP">
+                        <span class="plan-name">VIP</span>
+                        <span class="plan-price">800 000 som</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Azo bolish</button>
         </form>
-        <a class="link" href="/admin.html">Admin paneliga otish</a>
+
+        <div class="footer-nav">
+            <a href="/admin.html">Admin paneliga otish</a>
+        </div>
     </div>
 
     <script>
-        const form = document.getElementById("regForm");
-        form.addEventListener("submit", function(e) {
+        const form = document.getElementById("membershipForm");
+        const alertBox = document.getElementById("alertBox");
+
+        form.addEventListener("submit", function (e) {
             e.preventDefault();
-            
+
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
             const newMember = {
-                name: document.getElementById("name").value,
-                phone: document.getElementById("phone").value,
-                plan: document.getElementById("plan").value,
-                date: new Date().toLocaleDateString()
+                id: Date.now(),
+                name: document.getElementById("fullName").value.trim(),
+                phone: document.getElementById("phoneNumber").value.trim(),
+                plan: selectedPlan,
+                date: new Date().toLocaleDateString("uz-UZ")
             };
 
-            const members = JSON.parse(localStorage.getItem("members") || "[]");
-            members.push(newMember);
-            localStorage.setItem("members", JSON.stringify(members));
+            const existingMembers = JSON.parse(localStorage.getItem("gym_members") || "[]");
+            existingMembers.push(newMember);
+            localStorage.setItem("gym_members", JSON.stringify(existingMembers));
 
-            alert("Royxatdan otdingiz");
+            alertBox.style.display = "block";
             form.reset();
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
         });
     </script>
 </body>
