@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Smart Fitness</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: { 950: '#030508', 900: '#070A12', 800: '#0C111D', 700: '#151C2C', 600: '#1E293B' },
+            emerald: { 400: '#34D399', 500: '#10B981', 600: '#059669' },
+            cyan: { 400: '#22D3EE', 500: '#06B6D4' },
+            amber: { 400: '#FBBF24', 500: '#F59E0B' },
+            rose: { 400: '#FB7185', 500: '#F43F5E' },
+            violet: { 400: '#A78BFA', 500: '#8B5CF6', 600: '#7C3AED' },
+          },
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        }
+      }
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 50% 0%, #0D1527 0%, #060911 60%, #020306 100%);
+      color: #E2E8F0;
+      min-height: 100vh;
+    }
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(16,185,129,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .bg-radial {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(139,92,246,0.12) 0%, rgba(6,182,212,0.08) 45%, transparent 75%),
+                  radial-gradient(ellipse 60% 40% at 100% 100%, rgba(16,185,129,0.08) 0%, transparent 60%);
+    }
+    .aurora-text {
+      background: linear-gradient(135deg, #34D399 0%, #22D3EE 35%, #A78BFA 70%, #F472B6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px rgba(34,211,238,0.3));
+    }
+    .glass {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.25rem;
+    }
+    .glass-strong {
+      background: rgba(255,255,255,0.045);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.25rem;
+    }
+    .neo-input, .neo-textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.7rem; color: #E2E8F0;
+      font-weight: 500; outline: none; width: 100%;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .neo-input { padding: 0.6rem 0.85rem; }
+    .neo-textarea { padding: 0.6rem 0.85rem; resize: vertical; min-height: 52px; }
+    .neo-input:focus, .neo-textarea:focus {
+      border-color: #10B981;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.18);
+    }
+    .field-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.02em;
+      color: #64748B; text-transform: uppercase; margin-bottom: 0.35rem; display: block;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #10B981, #06B6D4);
+      border: none; border-radius: 0.875rem; color: white;
+      font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(16,185,129,0.35);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16,185,129,0.5); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 0.875rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; color: rgba(255,255,255,0.7);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); color: white; }
+    .btn-danger {
+      background: rgba(244,63,94,0.1);
+      border: 1px solid rgba(244,63,94,0.3);
+      border-radius: 0.875rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; color: #FB7185;
+    }
+    .btn-danger:hover { background: rgba(244,63,94,0.2); }
+
+    .section-card { padding: 1.5rem; margin-bottom: 1.5rem; }
+    .item-row {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 1rem; padding: 1rem 1.1rem; margin-bottom: 0.85rem;
+    }
+    .item-row:last-child { margin-bottom: 0; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: rgba(16,185,129,0.95); color: white; font-weight: 700; font-size: 0.85rem;
+      padding: 0.8rem 1.4rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.danger { background: rgba(244,63,94,0.95); }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-radial"></div>
+
+  <div class="relative z-10 min-h-screen flex flex-col">
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 py-4 px-6" style="background:rgba(7,10,18,0.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(167,139,250,0.15);box-shadow:0 10px 30px -10px rgba(0,0,0,0.7);">
+      <div class="max-w-4xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center relative" style="background:linear-gradient(135deg,rgba(167,139,250,0.22),rgba(6,182,212,0.2));border:1.5px solid rgba(167,139,250,0.4);box-shadow:0 0 20px rgba(167,139,250,0.3);">
+            <i class="fa-solid fa-sliders text-xl text-violet-300"></i>
+          </div>
+          <div>
+            <h1 class="font-black text-xl leading-tight aurora-text tracking-tight">Admin Panel</h1>
+            <p class="text-xs text-violet-300/70 font-semibold tracking-wider uppercase">Anketa Kontentini Boshqarish</p>
+          </div>
+        </div>
+        <a href="index.html" class="btn-secondary px-4 py-2.5 text-sm flex items-center gap-2">
+          <i class="fa-solid fa-arrow-left text-xs"></i> Anketaga qaytish
+        </a>
+      </div>
+    </header>
+
+    <main class="flex-1 py-8 px-4">
+      <div class="max-w-4xl mx-auto">
+
+        <div class="glass p-4 mb-6 flex items-start gap-3 text-xs text-slate-400 leading-relaxed">
+          <i class="fa-solid fa-circle-info text-cyan-400 mt-0.5"></i>
+          <div>
+            Bu yerda anketaning barcha matnlarini (qadam nomlari, sarlavhalar va javob variantlari) tahrirlashingiz mumkin. O'zgarishlar brauzeringizda saqlanadi va anketa sahifasida darhol qo'llaniladi. Loyihada backend yo'q, shuning uchun sozlamalar shu qurilma/brauzerga xos.
+          </div>
+        </div>
+
+        <!-- STEP NAMES -->
+        <section class="glass-strong section-card">
+          <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-list-ol text-emerald-400"></i> Qadam Nomlari
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">Progress panelida va sarlavhada ko'rinadigan qisqa nomlar (9 ta qadam)</p>
+          <div id="step-names-list"></div>
+        </section>
+
+        <!-- STEP TITLES -->
+        <section class="glass-strong section-card">
+          <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-heading text-cyan-400"></i> Qadam Sarlavha va Tavsiflari
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">Har bir qadamning katta sarlavhasi va ostidagi tushuntirish matni</p>
+          <div id="step-titles-list"></div>
+        </section>
+
+        <!-- GENDER -->
+        <section class="glass-strong section-card">
+          <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-venus-mars text-rose-400"></i> Jins Variantlari
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">1-qadamdagi ikkita tanlov kartasi</p>
+          <div id="gender-list"></div>
+        </section>
+
+        <!-- GOALS -->
+        <section class="glass-strong section-card">
+          <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-bullseye text-amber-400"></i> Fitnes Maqsad Variantlari
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">4-qadamdagi uchta maqsad kartasi</p>
+          <div id="goals-list"></div>
+        </section>
+
+        <!-- ACTIVITY -->
+        <section class="glass-strong section-card">
+          <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-dumbbell text-violet-400"></i> Jismoniy Faollik Variantlari
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">5-qadamdagi beshta faollik darajasi kartasi</p>
+          <div id="activity-list"></div>
+        </section>
+
+        <div class="flex items-center justify-between gap-4 mb-10 flex-wrap">
+          <button id="reset-btn" class="btn-danger px-5 py-3 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-rotate-left text-xs"></i> Standart holatga qaytarish
+          </button>
+          <button id="save-btn" class="btn-primary px-8 py-3.5 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-floppy-disk text-xs"></i> Saqlash
+          </button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"><i class="fa-solid fa-circle-check"></i><span id="toast-text"></span></div>
+
+  <script>
+    const STORAGE_KEY = 'smartFitnessAdminConfig';
+
+    // Defaults — must mirror the content shipped in index.html
+    const DEFAULTS = {
+      stepNames: [
+        'Jinsingizni Tanlang', 'Yoshingiz va Bo\'yingiz', 'Hozirgi Tana Vazningiz',
+        'Asosiy Fitnes Maqsadingiz', 'Jismoniy Faollik Maromingiz', 'Ko\'zlangan Maqsadli Vazn',
+        'Erishish Muddati (Haftalar)', 'Kunlik Toza Suv Iste\'moli', 'Tungi Uyqu va Tiklanish',
+      ],
+      stepTitles: [
+        { title: 'Biologik Jinsingizni Tanlang', subtitle: 'Mifflin-St Jeor ilmiy formulasi orqali asosiy metabolik tezlik (BMR) hisoblanadi' },
+        { title: 'Yoshingiz va Bo\'y O\'lchamingiz', subtitle: 'Tana hajmi va yoshga bog\'liq energiya sarfini hisoblash ko\'rsatkichlari' },
+        { title: 'Hozirgi Tana Vazningiz', subtitle: 'Barcha kaloriya va ozuqaviy makronutrientlar joriy vaznga tayangan holda shakllantiriladi' },
+        { title: 'Birlamchi Fitnes Maqsadingiz', subtitle: 'Reja kaloriyalar defitsiti (ozish), balansi (saqlash) yoki surplyusi (massa) bo\'yicha moslanadi' },
+        { title: 'Kunlik Jismoniy Faollik Darajasi', subtitle: 'TDEE (kunlik sarflanadigan jami kaloriya) hisobi uchun multiplikator koeffitsienti' },
+        { title: 'Ko\'zlangan Maqsadli Tana Vazni', subtitle: 'Erishmoqchi bo\'lgan vazningiz xavfsiz biologik chegaralarda bo\'lishi tekshiriladi' },
+        { title: 'Maqsadga Erishish Muddati', subtitle: 'Vazn o\'zgarishining haftalik tezligi xavfsiz sur\'atda (0.5–1.0 kg/hafta) bo\'lishi shart' },
+        { title: 'Kunlik Toza Suv Iste\'moli', subtitle: 'Gidratatsiya — mushak tonusi, moddalar almashinuvi va energiya ishlab chiqarilishining asosidir' },
+        { title: 'Tungi Uyqu va Biologik Tiklanish', subtitle: 'Uyqu paytida o\'sish gormoni ishlab chiqiladi, asab tizimi va mushaklar to\'liq qayta tiklanadi' },
+      ],
+      gender: [
+        { label: 'Erkak (Male)', desc: 'Formulaga ko\'ra: +5 kcal qo\'shimcha baza' },
+        { label: 'Ayol (Female)', desc: 'Gormonal tuzatish: -161 kcal tuzatish' },
+      ],
+      goals: [
+        { label: 'Ozish va Yog\' Yoqish (Fat Loss)', desc: 'Ortiqcha yog\' qatlamlaridan xalos bo\'lish, relyef va yengillikka erishish' },
+        { label: 'Vaznni Saqlash (Maintenance)', desc: 'Mavjud tana tuzilishini asrash, salomatlik va biologik tonusni ushlab turish' },
+        { label: 'Quruq Mushak Massasi (Muscle Gain)', desc: 'Mushak tolalarini o\'stirish, jismoniy kuch va tananing quvvat salohiyatini oshirish' },
+      ],
+      activities: [
+        { label: 'Kamharakat turmush tarzi (Sedentary)', desc: 'Asosan o\'tirib ishlash, muntazam mashg\'ulotlar deyarli yo\'q' },
+        { label: 'Yengil jismoniy faollik (Light)', desc: 'Haftasiga 1–3 marotaba yengil yurish, gimnastika yoki mashqlar' },
+        { label: 'O\'rtacha sport faolligi (Moderate)', desc: 'Haftasiga 3–5 marotaba o\'rtacha zo\'riqishdagi fitnes mashg\'ulotlari' },
+        { label: 'Yuqori intensiv faollik (Heavy)', desc: 'Haftasiga 6–7 kun to\'liq og\'ir atletika yoki intensiv krossfit' },
+        { label: 'Professional sportchi (Athlete)', desc: 'Kuniga 2 martadan professional mashg\'ulotlar yoki og\'ir jismoniy mehnat' },
+      ],
+    };
+
+    function loadConfig() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+        const saved = JSON.parse(raw);
+        // merge shallowly so missing fields fall back to defaults
+        return {
+          stepNames: saved.stepNames && saved.stepNames.length === DEFAULTS.stepNames.length ? saved.stepNames : DEFAULTS.stepNames.slice(),
+          stepTitles: saved.stepTitles && saved.stepTitles.length === DEFAULTS.stepTitles.length ? saved.stepTitles : JSON.parse(JSON.stringify(DEFAULTS.stepTitles)),
+          gender: saved.gender && saved.gender.length === DEFAULTS.gender.length ? saved.gender : JSON.parse(JSON.stringify(DEFAULTS.gender)),
+          goals: saved.goals && saved.goals.length === DEFAULTS.goals.length ? saved.goals : JSON.parse(JSON.stringify(DEFAULTS.goals)),
+          activities: saved.activities && saved.activities.length === DEFAULTS.activities.length ? saved.activities : JSON.parse(JSON.stringify(DEFAULTS.activities)),
+        };
+      } catch (e) {
+        return JSON.parse(JSON.stringify(DEFAULTS));
+      }
+    }
+
+    let cfg = loadConfig();
+
+    function esc(str) {
+      return (str || '').replace(/"/g, '&quot;');
+    }
+
+    function renderStepNames() {
+      const el = document.getElementById('step-names-list');
+      el.innerHTML = cfg.stepNames.map((name, i) => `
+        <div class="item-row">
+          <label class="field-label">Qadam ${i + 1}</label>
+          <input type="text" class="neo-input" data-group="stepNames" data-index="${i}" value="${esc(name)}" />
+        </div>
+      `).join('');
+    }
+
+    function renderStepTitles() {
+      const el = document.getElementById('step-titles-list');
+      el.innerHTML = cfg.stepTitles.map((t, i) => `
+        <div class="item-row">
+          <label class="field-label">Qadam ${i + 1} — Sarlavha</label>
+          <input type="text" class="neo-input mb-2" data-group="stepTitles" data-field="title" data-index="${i}" value="${esc(t.title)}" />
+          <label class="field-label">Qadam ${i + 1} — Tavsif</label>
+          <textarea class="neo-textarea" data-group="stepTitles" data-field="subtitle" data-index="${i}">${t.subtitle || ''}</textarea>
+        </div>
+      `).join('');
+    }
+
+    function renderOptionGroup(containerId, groupKey, data) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = data.map((item, i) => `
+        <div class="item-row">
+          <label class="field-label">Variant ${i + 1} — Nomi</label>
+          <input type="text" class="neo-input mb-2" data-group="${groupKey}" data-field="label" data-index="${i}" value="${esc(item.label)}" />
+          <label class="field-label">Variant ${i + 1} — Tavsifi</label>
+          <textarea class="neo-textarea" data-group="${groupKey}" data-field="desc" data-index="${i}">${item.desc || ''}</textarea>
+        </div>
+      `).join('');
+    }
+
+    function renderAll() {
+      renderStepNames();
+      renderStepTitles();
+      renderOptionGroup('gender-list', 'gender', cfg.gender);
+      renderOptionGroup('goals-list', 'goals', cfg.goals);
+      renderOptionGroup('activity-list', 'activities', cfg.activities);
+    }
+
+    function collectFromForm() {
+      document.querySelectorAll('[data-group="stepNames"]').forEach(inp => {
+        cfg.stepNames[+inp.dataset.index] = inp.value;
+      });
+      document.querySelectorAll('[data-group="stepTitles"]').forEach(inp => {
+        cfg.stepTitles[+inp.dataset.index][inp.dataset.field] = inp.value;
+      });
+      ['gender', 'goals', 'activities'].forEach(group => {
+        document.querySelectorAll(`[data-group="${group}"]`).forEach(inp => {
+          cfg[group][+inp.dataset.index][inp.dataset.field] = inp.value;
+        });
+      });
+    }
+
+    function showToast(text, danger) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-text').textContent = text;
+      t.classList.toggle('danger', !!danger);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    document.getElementById('save-btn').addEventListener('click', () => {
+      collectFromForm();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+      showToast('Saqlandi! Anketa sahifasida yangilangan matnlar ko\'rinadi.');
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      if (!confirm('Barcha matnlarni standart holatga qaytarmoqchimisiz? Saqlangan o\'zgarishlar o\'chib ketadi.')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      cfg = JSON.parse(JSON.stringify(DEFAULTS));
+      renderAll();
+      showToast('Standart holatga qaytarildi.', true);
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
