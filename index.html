@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
-            background: radial-gradient(circle at top, #1a1a24, #0b0b0e);
+            background: radial-gradient(circle at top, #16161d, #08080a);
             color: #f1f1f1;
             min-height: 100vh;
             display: flex;
@@ -18,32 +18,31 @@
         }
         .container {
             width: 100%;
-            max-width: 480px;
-            background: rgba(22, 22, 29, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
+            max-width: 440px;
+            background: rgba(18, 18, 24, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 32px;
-            border-radius: 18px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
         h1 {
             margin-top: 0;
-            font-size: 26px;
+            font-size: 24px;
             letter-spacing: -0.5px;
         }
         label {
             display: block;
-            margin-top: 16px;
+            margin-top: 14px;
             font-size: 14px;
-            color: #9ca3af;
+            color: #a1a1aa;
         }
         input, select {
             width: 100%;
             padding: 12px;
             margin-top: 6px;
-            background: #111116;
+            background: #0f0f13;
             border: 1px solid #272732;
-            border-radius: 10px;
+            border-radius: 8px;
             color: #fff;
             box-sizing: border-box;
             outline: none;
@@ -54,31 +53,42 @@
         button {
             width: 100%;
             padding: 14px;
-            margin-top: 24px;
+            margin-top: 22px;
             background: #2563eb;
             color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
         }
         button:hover {
             background: #1d4ed8;
         }
+        .link {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Azo bolish</h1>
-        <form action="/register" method="POST">
+        <form id="regForm">
             <label for="name">Ismingiz</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" required>
 
             <label for="phone">Telefon raqam</label>
-            <input type="tel" id="phone" name="phone" required>
+            <input type="tel" id="phone" required>
 
             <label for="plan">Tarif</label>
-            <select id="plan" name="plan">
+            <select id="plan">
                 <option value="Standard">Standard</option>
                 <option value="Premium">Premium</option>
                 <option value="VIP">VIP</option>
@@ -86,6 +96,28 @@
 
             <button type="submit">Royxatdan otish</button>
         </form>
+        <a class="link" href="/admin.html">Admin paneliga otish</a>
     </div>
+
+    <script>
+        const form = document.getElementById("regForm");
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const newMember = {
+                name: document.getElementById("name").value,
+                phone: document.getElementById("phone").value,
+                plan: document.getElementById("plan").value,
+                date: new Date().toLocaleDateString()
+            };
+
+            const members = JSON.parse(localStorage.getItem("members") || "[]");
+            members.push(newMember);
+            localStorage.setItem("members", JSON.stringify(members));
+
+            alert("Royxatdan otdingiz");
+            form.reset();
+        });
+    </script>
 </body>
 </html>
