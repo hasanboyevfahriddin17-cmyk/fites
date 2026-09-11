@@ -1,20 +1,22 @@
 import sqlite3
 
-def init_db():
-    conn = sqlite3.connect("fitness.db")
-    cursor = conn.cursor()
+def init_database():
+    connection = sqlite3.connect("gym_members.db")
+    cursor = connection.cursor()
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS members (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             phone TEXT NOT NULL,
             plan TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    conn.commit()
-    conn.close()
+
+    connection.commit()
+    connection.close()
+    print("Database tayyorlandi")
 
 if __name__ == "__main__":
-    init_db()
-    print("Baza muvaffaqiyatli yaratildi")
+    init_database()
