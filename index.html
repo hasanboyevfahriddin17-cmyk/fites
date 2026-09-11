@@ -94,46 +94,6 @@
             box-shadow: 0 0 0 3px rgba(102, 252, 241, 0.15);
         }
 
-        .plan-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .plan-card {
-            border: 1px solid #232533;
-            background: #11121a;
-            padding: 14px 10px;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .plan-card input[type="radio"] {
-            display: none;
-        }
-
-        .plan-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #ffffff;
-            display: block;
-        }
-
-        .plan-price {
-            font-size: 11px;
-            color: #8c8d96;
-            margin-top: 4px;
-            display: block;
-        }
-
-        .plan-card:has(input[type="radio"]:checked) {
-            border-color: #66fcf1;
-            background: rgba(102, 252, 241, 0.08);
-        }
-
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -204,29 +164,6 @@
                 <input type="tel" id="phoneNumber" placeholder="+998 90 123 45 67" required>
             </div>
 
-            <div class="form-group">
-                <label>Tarifni tanlang</label>
-                <div class="plan-grid">
-                    <label class="plan-card">
-                        <input type="radio" name="plan" value="Standard" checked>
-                        <span class="plan-name">Standard</span>
-                        <span class="plan-price">300 000 som</span>
-                    </label>
-
-                    <label class="plan-card">
-                        <input type="radio" name="plan" value="Premium">
-                        <span class="plan-name">Premium</span>
-                        <span class="plan-price">500 000 som</span>
-                    </label>
-
-                    <label class="plan-card">
-                        <input type="radio" name="plan" value="VIP">
-                        <span class="plan-name">VIP</span>
-                        <span class="plan-price">800 000 som</span>
-                    </label>
-                </div>
-            </div>
-
             <button type="submit" class="submit-btn">Azo bolish</button>
         </form>
 
@@ -242,12 +179,11 @@
         form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
             const newMember = {
                 id: Date.now(),
                 name: document.getElementById("fullName").value.trim(),
                 phone: document.getElementById("phoneNumber").value.trim(),
-                plan: selectedPlan,
+                plan: "Oddiy",
                 date: new Date().toLocaleDateString("uz-UZ")
             };
 
