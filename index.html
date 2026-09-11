@@ -65,6 +65,22 @@
             margin-top: 6px;
         }
 
+        .alert-box {
+            display: none !important;
+            background: rgba(46, 213, 115, 0.15);
+            border: 1px solid #2ed573;
+            color: #2ed573;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .alert-box.active {
+            display: block !important;
+        }
+
         .form-group {
             margin-bottom: 18px;
         }
@@ -111,18 +127,6 @@
         .submit-btn:hover {
             background: #66fcf1;
             box-shadow: 0 0 15px rgba(102, 252, 241, 0.35);
-        }
-
-        .alert-box {
-            display: none;
-            background: rgba(46, 213, 115, 0.15);
-            border: 1px solid #2ed573;
-            color: #2ed573;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 16px;
         }
 
         .footer-nav {
@@ -191,11 +195,11 @@
             existingMembers.push(newMember);
             localStorage.setItem("gym_members", JSON.stringify(existingMembers));
 
-            alertBox.style.display = "block";
+            alertBox.classList.add("active");
             form.reset();
 
             setTimeout(() => {
-                alertBox.style.display = "none";
+                alertBox.classList.remove("active");
             }, 3000);
         });
     </script>
